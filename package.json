@@ -1,0 +1,17 @@
+{
+  "name": "jstimus",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": "true",
+  "engines": {
+    "node": "15"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  },
+  "devDependencies": {},
+  "workspaces": ["jstimus.front", "jstimus.server"],
+  "scripts": {
+    "build:front": "yarn workspace jstimus.front build:prod"
+  }
+}

@@ -1,0 +1,10 @@
+.Content {
+    grid-column: 2 / 3;
+}
+
+.App {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    margin: 0 30px;
+}

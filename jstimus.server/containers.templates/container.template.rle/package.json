@@ -1,0 +1,14 @@
+{
+  "name": "container.template.rle",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  },
+  "scripts": {
+    "deps": "yarn install",
+    "start": "cross-env node index.js",
+    "docker:build": "docker build --tag %npm_package_name% .",
+    "docker:run": "docker run %npm_package_name%"
+  }
+}

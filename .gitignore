@@ -1,0 +1,6 @@
+.idea/
+node_modules/
+jstimus.front/node_modules/
+jstimus.server/node_modules/
+jstimus.server/containers.templates/container.template.rle/node_modules/
+jstimus.server/containers.templates/container.template.test/node_modules/
