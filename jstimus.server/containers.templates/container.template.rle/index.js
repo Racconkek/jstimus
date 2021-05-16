@@ -1,3 +1,3 @@
-import { main }from "./mainSolution.js";
+const { code, decode } = require("./mainCorrect.js");
 
-main();
+

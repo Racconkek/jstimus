@@ -7,7 +7,7 @@ const ContainerRunnerService = require('../containerRunnerService/ContainerRunne
 module.exports = async function checkTask(req, res) {
 
     const form = formidable.IncomingForm({multiples: true});
-
+    let containerPath = undefined;
     try {
         const {fields, files} = await new Promise((resolve, reject) => {
             form.parse(req, (err, fields, files) => {
@@ -21,7 +21,7 @@ module.exports = async function checkTask(req, res) {
 
         const time = new Date().getTime();
         const containerName = `container.${fields.taskName}.${fields.studentName}.${time}`
-        const containerPath = path.join(path.resolve(__dirname, '..', 'containers.temp'), containerName);
+        containerPath = path.join(path.resolve(__dirname, '..', 'containers.temp'), containerName);
 
         const isCreated = await createTempContainerDir(files, containerPath, fields.taskName);
         if (!isCreated) {
@@ -32,14 +32,16 @@ module.exports = async function checkTask(req, res) {
 
         const runner = new ContainerRunnerService(imageName, imageTag, containerPath);
         const result = await runner.buildAndRunContainer();
-        // console.log('RESULT', result);
+        console.log('RESULT', result);
         const isDeleted = await deleteTempContainerDir(containerPath);
         if(isDeleted) {
-            res.json({data: result});
+            res.json({data: result.split('\n')[4]});
         }
     } catch (err) {
         console.error(err);
-        //TODO: удалять временную папку для создания контейнера даже если была ошибка
+        if (containerPath) {
+            await deleteTempContainerDir(containerPath);
+        }
         return res.status(500).send({messageerror: err.errors});
     }
 }
