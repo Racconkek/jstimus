@@ -1,0 +1,28 @@
+.TaskResults {
+    margin: 70px 0;
+}
+
+.TaskResultsForm {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+.Assertions {
+    display: grid;
+    grid-template-columns: 25% 30% 10% 35%;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.TaskResultsItem {
+    margin: 5px 0;
+}
+
+.Passed {
+    color: #05ae05;
+}
+
+.Failed {
+    color: #CE0014;
+ }

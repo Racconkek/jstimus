@@ -29,14 +29,13 @@ module.exports = async function checkTask(req, res) {
         }
         const imageName = containerName;
         const imageTag = `${containerName}_tag`;
-
+        console.log('start creating container');
         const runner = new ContainerRunnerService(imageName, imageTag, containerPath);
         const result = await runner.buildAndRunContainer();
         console.log('RESULT', result);
         const isDeleted = await deleteTempContainerDir(containerPath);
-        if(isDeleted) {
-            res.json({data: result.split('\n')[4]});
-        }
+        const data = result.split('\n')[4];
+        res.json(data);
     } catch (err) {
         console.error(err);
         if (containerPath) {

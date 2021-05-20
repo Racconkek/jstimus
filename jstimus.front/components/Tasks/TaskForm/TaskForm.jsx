@@ -59,13 +59,16 @@ export default class TaskForm extends React.Component {
         const hasAllFiles = this.state.files.every(e => e.codeFile !== '')
         // console.log('submit ' + hasAllFiles);
         let {studentName, files } = this.state;
+        this.props.onResults({results: null, isLoading: true});
         DataService.sendFiles(this.props.taskName, studentName, files)
             .then((res) => {
-                this.props.onResults(res);
+                const j = JSON.parse(res);
+                console.log(j);
+                this.props.onResults({results: j, isLoading: false});
             })
             .catch((err) => {
                 console.log(err);
-                this.props.onResults(null);
+                this.props.onResults(null, false);
             })
     }
 
@@ -74,20 +77,20 @@ export default class TaskForm extends React.Component {
         return <div className={'TaskForm'}>
             <Form onSubmit={this.handleSubmit}>
                 <Form.Group>
-                    <Form.Label>Имя студента</Form.Label>
-                    <Form.Control type={name} onChange={this.handleNameInput}/>
+                    {/*<Form.Label>Имя студента</Form.Label>*/}
+                    <Form.Control className={'FormInput'} type={name} onChange={this.handleNameInput} placeholder={'Имя студента'}/>
                 </Form.Group>
                 <Form.Group>
                     {inputs.map(e => {
-                        return <Form.File key={e.fileId} id={e.fileId} custom>
-                            <Form.File.Input onChange={this.handleFileInput} accept={'.js'}/>
-                            <Form.File.Label data-browse="Выбрать">
+                        return <Form.File className={'FormInput'} key={e.fileId} id={e.fileId} custom>
+                            <Form.File.Input className={'FormInput'} onChange={this.handleFileInput} accept={'.js'}/>
+                            <Form.File.Label className={'FormInput'} data-browse="Выбрать">
                                 {e.fileName}
                             </Form.File.Label>
                         </Form.File>
                     })}
                 </Form.Group>
-                <Button variant="outline-primary" type="submit">Отправить</Button>
+                <Button className={'FormButton'} variant="outline-primary" type="submit">Отправить</Button>
             </Form>
         </div>
     }

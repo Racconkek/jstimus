@@ -1,10 +1,69 @@
+html, body {
+    min-height: 100vh;
+    max-width: 100vw;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0.02em;
+}
+
 .Content {
     grid-column: 2 / 3;
+    width: 100%;
+    padding: 70px 100px;
 }
 
 .App {
     min-height: 100vh;
+    max-width: 100vw;
     display: grid;
     grid-template-columns: 20% 80%;
+    gap: 10px;
     margin: 0 30px;
+}
+
+.FirstTitle {
+    /*font-family: SF Pro Display;*/
+    font-style: normal;
+    font-weight: normal;
+    font-size: 40px;
+    line-height: 80px;
+    letter-spacing: 0.02em;
+}
+
+.SecondTitle {
+    /*font-family: SF Pro Display;*/
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 140.62%;
+    letter-spacing: 0.02em;
+}
+
+.ThirdTitle {
+    /*font-family: SF Pro Display;*/
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0.02em;
+}
+
+.RegularText {
+    /*font-family: SF Pro Display;*/
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0.02em;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #000000;
+    text-decoration: none;
 }

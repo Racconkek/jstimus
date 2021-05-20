@@ -2175,14 +2175,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Navigation() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: 'NavigationContainer'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default, {
     className: 'flex-column Navigation'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default.Link, {
-    href: "/"
+    href: "/",
+    className: 'RegularText NavigationText'
   }, "\u0413\u043B\u0430\u0432\u043D\u0430\u044F"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default.Link, {
-    href: "/tasks/RLE"
+    href: "/tasks/RLE",
+    className: 'RegularText NavigationText'
   }, "RLE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default.Link, {
-    href: "/tasks/Entropy"
+    href: "/tasks/Entropy",
+    className: 'RegularText NavigationText'
   }, "\u042D\u043D\u0442\u0440\u043E\u043F\u0438\u044F \u0428\u0435\u043D\u043D\u043E\u043D\u0430")));
 }
 
@@ -2252,24 +2257,34 @@ function RLE() {
       results = _useState2[0],
       setResults = _useState2[1];
 
-  function handleResults(results) {
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      isLoading = _useState4[0],
+      setLoading = _useState4[1];
+
+  var handleResults = function handleResults(_ref) {
+    var results = _ref.results,
+        isLoading = _ref.isLoading;
+    setLoading(isLoading);
     setResults(results);
-  }
+    console.log(results, isLoading);
+  };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'Content'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TaskForm_TaskForm_jsx__WEBPACK_IMPORTED_MODULE_1__.default, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", {
+    className: 'FirstTitle'
+  }, "RLE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TaskForm_TaskForm_jsx__WEBPACK_IMPORTED_MODULE_1__.default, {
     taskName: 'rle',
     taskFiles: [{
       fileId: 'mainSolution',
-      fileName: 'Решение'
+      fileName: 'Файл с решением'
     }],
-    onResults: function onResults() {
-      return handleResults();
-    }
-  }), results ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TaskResults_TaskResults_jsx__WEBPACK_IMPORTED_MODULE_2__.default, {
-    results: results
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "\u041D\u0435\u0442 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u043E\u0432"));
+    onResults: handleResults
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TaskResults_TaskResults_jsx__WEBPACK_IMPORTED_MODULE_2__.default, {
+    results: results,
+    isLoading: isLoading
+  }));
 }
 
 /***/ }),
@@ -2382,12 +2397,24 @@ var TaskForm = /*#__PURE__*/function (_React$Component) {
       var _this$state = _this.state,
           studentName = _this$state.studentName,
           files = _this$state.files;
+
+      _this.props.onResults({
+        results: null,
+        isLoading: true
+      });
+
       _dataService_dataService_js__WEBPACK_IMPORTED_MODULE_2__.default.sendFiles(_this.props.taskName, studentName, files).then(function (res) {
-        _this.props.onResults(res);
+        var j = JSON.parse(res);
+        console.log(j);
+
+        _this.props.onResults({
+          results: j,
+          isLoading: false
+        });
       })["catch"](function (err) {
         console.log(err);
 
-        _this.props.onResults(null);
+        _this.props.onResults(null, false);
       });
     });
 
@@ -2414,21 +2441,27 @@ var TaskForm = /*#__PURE__*/function (_React$Component) {
         className: 'TaskForm'
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default, {
         onSubmit: this.handleSubmit
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Group, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Label, null, "\u0418\u043C\u044F \u0441\u0442\u0443\u0434\u0435\u043D\u0442\u0430"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Control, {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Group, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Control, {
+        className: 'FormInput',
         type: name,
-        onChange: this.handleNameInput
+        onChange: this.handleNameInput,
+        placeholder: 'Имя студента'
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Group, null, inputs.map(function (e) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.File, {
+          className: 'FormInput',
           key: e.fileId,
           id: e.fileId,
           custom: true
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.File.Input, {
+          className: 'FormInput',
           onChange: _this2.handleFileInput,
           accept: '.js'
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.File.Label, {
+          className: 'FormInput',
           "data-browse": "\u0412\u044B\u0431\u0440\u0430\u0442\u044C"
         }, e.fileName));
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__.default, {
+        className: 'FormButton',
         variant: "outline-primary",
         type: "submit"
       }, "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C")));
@@ -2451,6 +2484,34 @@ _defineProperty(TaskForm, "propTypes", {
 
 /***/ }),
 
+/***/ "./components/Tasks/TaskResults/TaskResultItem.jsx":
+/*!*********************************************************!*\
+  !*** ./components/Tasks/TaskResults/TaskResultItem.jsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TaskResultItem)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+
+function TaskResultItem(_ref) {
+  var item = _ref.item,
+      key = _ref.key,
+      status = _ref.status;
+  // console.log(item);
+  return item ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: 'Assertions',
+    key: key
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, item.ancestorTitles ? item.ancestorTitles.join(', ') : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, item.title ? item.title : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: item.status && item.status === 'passed' ? 'Passed' : 'Failed'
+  }, item.status ? item.status : ''), !status && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, item.failureMessages)) : '';
+}
+
+/***/ }),
+
 /***/ "./components/Tasks/TaskResults/TaskResults.jsx":
 /*!******************************************************!*\
   !*** ./components/Tasks/TaskResults/TaskResults.jsx ***!
@@ -2463,10 +2524,109 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ TaskResults)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../node_modules/react/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "../node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _TaskResults_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaskResults.css */ "./components/Tasks/TaskResults/TaskResults.css");
+/* harmony import */ var _TaskResultItem_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TaskResultItem.jsx */ "./components/Tasks/TaskResults/TaskResultItem.jsx");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function TaskResults(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "\u0420\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u044B:", props.results);
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+var TaskResults = /*#__PURE__*/function (_React$Component) {
+  _inherits(TaskResults, _React$Component);
+
+  var _super = _createSuper(TaskResults);
+
+  function TaskResults() {
+    _classCallCheck(this, TaskResults);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(TaskResults, [{
+    key: "render",
+    value: function render() {
+      // console.log(this.props.results);
+      var _this$props = this.props,
+          results = _this$props.results,
+          isLoading = _this$props.isLoading;
+      var testResults = results ? results.testResults[0] : null;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: 'TaskResults'
+      }, isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: 'FirstTitle'
+      }, "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u043E\u0432") : !results ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: 'FirstTitle'
+      }, "\u041D\u0435\u0442 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u043E\u0432") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: 'FirstTitle'
+      }, "\u0420\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u044B:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: 'TaskResultsForm'
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: 'SecondTitle TaskResultsItem'
+      }, "\u0423\u0441\u043F\u0435\u0445: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: results.success ? 'Passed' : 'Failed'
+      }, "".concat(results.success))), !results.success && testResults.assertionResults.length === 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: 'SecondTitle TaskResultsItem'
+      }, "\u0421\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435 \u043E\u0431 \u043E\u0448\u0438\u0431\u043A\u0435"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: 'TaskResultsItem'
+      }, testResults.message)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: 'SecondTitle TaskResultsItem'
+      }, "\u0412\u0440\u0435\u043C\u044F \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u044F: ".concat(testResults.endTime - testResults.startTime, " ms")), testResults.assertionResults.length !== 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: 'SecondTitle TaskResultsItem'
+      }, "\u0422\u0435\u0441\u0442\u044B:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: 'Assertions'
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: 'ThirdTitle'
+      }, "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: 'ThirdTitle'
+      }, "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: 'ThirdTitle'
+      }, "\u0421\u0442\u0430\u0442\u0443\u0441"), !results.success && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: 'ThirdTitle'
+      }, "\u0421\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435 \u043E\u0431 \u043E\u0448\u0438\u0431\u043A\u0435")), testResults.assertionResults.map(function (item, index) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TaskResultItem_jsx__WEBPACK_IMPORTED_MODULE_3__.default, {
+          key: item.fullName,
+          item: item,
+          status: results.success
+        });
+      })))));
+    }
+  }]);
+
+  return TaskResults;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+_defineProperty(TaskResults, "propTypes", {
+  results: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().object),
+  isLoading: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool)
+});
+
+
 
 /***/ }),
 
@@ -2483,6 +2643,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "../node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mocks_response_success_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mocks/response_success.js */ "./mocks/response_success.js");
+/* harmony import */ var _mocks_response_fail_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mocks/response_fail.js */ "./mocks/response_fail.js");
+/* harmony import */ var _mocks_response_fail_name_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mocks/response_fail_name.js */ "./mocks/response_fail_name.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -2498,6 +2661,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
 
 
 var baseUrl = window.location.protocol + '\/\/' + window.location.hostname + ':' + '3000'; // window.location.port;
@@ -2571,12 +2737,458 @@ var DataService = /*#__PURE__*/function () {
 
       return sendFiles;
     }()
+  }, {
+    key: "sendFilesMockSuccess",
+    value: function () {
+      var _sendFilesMockSuccess = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(taskName, studentName, files) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                return _context2.abrupt("return", new Promise(function (resolve) {
+                  return setTimeout(function () {
+                    return resolve(JSON.stringify(_mocks_response_success_js__WEBPACK_IMPORTED_MODULE_1__.default));
+                  }, 1000);
+                }));
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      function sendFilesMockSuccess(_x4, _x5, _x6) {
+        return _sendFilesMockSuccess.apply(this, arguments);
+      }
+
+      return sendFilesMockSuccess;
+    }()
+  }, {
+    key: "sendFilesMockFail",
+    value: function () {
+      var _sendFilesMockFail = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(taskName, studentName, files) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                return _context3.abrupt("return", new Promise(function (resolve) {
+                  return setTimeout(function () {
+                    return resolve(JSON.stringify(_mocks_response_fail_js__WEBPACK_IMPORTED_MODULE_2__.default));
+                  }, 1000);
+                }));
+
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      function sendFilesMockFail(_x7, _x8, _x9) {
+        return _sendFilesMockFail.apply(this, arguments);
+      }
+
+      return sendFilesMockFail;
+    }()
+  }, {
+    key: "sendFilesMockFailName",
+    value: function () {
+      var _sendFilesMockFailName = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(taskName, studentName, files) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                return _context4.abrupt("return", new Promise(function (resolve) {
+                  return setTimeout(function () {
+                    return resolve(JSON.stringify(_mocks_response_fail_name_js__WEBPACK_IMPORTED_MODULE_3__.default));
+                  }, 1000);
+                }));
+
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }));
+
+      function sendFilesMockFailName(_x10, _x11, _x12) {
+        return _sendFilesMockFailName.apply(this, arguments);
+      }
+
+      return sendFilesMockFailName;
+    }()
   }]);
 
   return DataService;
 }();
 
 
+
+/***/ }),
+
+/***/ "./mocks/response_fail.js":
+/*!********************************!*\
+  !*** ./mocks/response_fail.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  "numFailedTestSuites": 1,
+  "numFailedTests": 14,
+  "numPassedTestSuites": 0,
+  "numPassedTests": 0,
+  "numPendingTestSuites": 0,
+  "numPendingTests": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 1,
+  "numTotalTests": 14,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "did Update": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1621240216585,
+  "success": false,
+  "testResults": [{
+    "assertionResults": [{
+      "ancestorTitles": ["Code function"],
+      "failureMessages": ["TypeError: code is not a function\n    at Object.<anonymous> (/code.test.js:8:27)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /no de_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at processTicksAndRejections (node:inte rnal/process/task_queues:94:5)"],
+      "fullName": "Code function count of 33 symbols should be !",
+      "location": null,
+      "status": "failed",
+      "title": "count of 33 symbols should be !"
+    }, {
+      "ancestorTitles": ["Code function"],
+      "failureMessages": ["TypeError: code is not a function\n    a t Object.<anonymous> (/code.test.js:14:27)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/ jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Code function 3 symbols should not be coded",
+      "location": null,
+      "status": " failed",
+      "title": "3 symbols should not be coded"
+    }, {
+      "ancestorTitles": ["Code function"],
+      "failureMessages": ["TypeError: code is not a function\n    at Object.<anonymous> (/code.test.js:20:27)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncI nstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at process TicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Code function escape symbol should be coded always 1",
+      "location": null,
+      "status": "failed",
+      "title": "escape symbol should be coded always 1"
+    }, {
+      "ancestorTitles": ["Code function"],
+      "failureMessages": ["TypeError: code is not a function\n    at Object.<anonymous> (/code.test.js:26:27)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise ( <anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Code function escape symbol should be coded always 3",
+      "location": null,
+      "status": "failed",
+      "title": "escape symbol should be coded always 3"
+    }, {
+      "ancestorTitles": ["Code function"],
+      "failureMessages": ["TypeError: code is not a function\n    at Object.<anonymous> (/code.test.js:32:27)\n    at Object.a syncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_mod ules/jest-jasmine2/build/queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Code function unprintable count symbol should be",
+      "location": null,
+      "status": "failed",
+      "title": "unprintable count symbol should be"
+    }, {
+      "ancestorTitles": ["Code function"],
+      "failureMessages": ["TypeError: code is not a function\n    at Object.<anonymous> (/code.test.js:38:27)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasm ine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/task_qu eues:94:5)"],
+      "fullName": "Code function string with length > 127 should be divided into parts",
+      "location": null,
+      "status": "failed",
+      "title": "string with length > 127 should be divided into parts"
+    }, {
+      "ancestorTitles": ["Code function"],
+      "failureMessages": ["TypeError: code is not a function\n    at Object.<anonymous> (/code.test.js:49:27)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    a t mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Code function difficult example",
+      "location": null,
+      "status": "failed",
+      "title": "difficult example"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": ["TypeError: code is not a function\n    at Object.<anonymous> (/code.test.js:59:27)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyn cInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at proce ssTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Decode function count of 33 symbols should be !",
+      "location": null,
+      "status": "failed",
+      "title": "count of 33 symbols should be !"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": ["TypeE rror: code is not a function\n    at Object.<anonymous> (/code.test.js:67:27)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymo us>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Decode function 3 symbols should not  be coded",
+      "location": null,
+      "status": "failed",
+      "title": "3 symbols should not be coded"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": ["TypeError: code is not a function\n    at Object.<anonymous> (/code.test.js:75:27)\n    at Object.asyncJestTest (/node_mo dules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/bui ld/queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Decode function escape symbol should be coded always 1",
+      "location": null,
+      "status": "failed",
+      "title": "escape symbol should be coded always 1"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": ["TypeError: code is not a function\n    at Object.<anonymous> (/code.test.js:83:27)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build /queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/task_queues:94:5) "],
+      "fullName": "Decode function escape symbol should be coded always 3",
+      "location": null,
+      "status": "failed",
+      "title": "escape symbol should be coded always 3"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": ["TypeError: code is not a function\n    at Object.<an onymous> (/code.test.js:91:27)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine 2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Decode function unprintable count symbol should be",
+      "location": null,
+      "status": "failed",
+      "title": "unprintable count symbol should be"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": ["TypeError: code is not a function\n    at Object.<anonymous> (/code.test.js:99:27)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyn cInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at proce ssTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Decode function string with length > 127 should be divided into parts",
+      "location": null,
+      "status": "failed",
+      "title": "string with length > 127 should be divided into parts"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": ["TypeError: code is not a function\n    at Object.<anonymous> (/code.test.js:112:27)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queue Runner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Decode function difficult example",
+      "location": null,
+      "status": "failed",
+      "title": "difficult example"
+    }],
+    "endTime": 1621240217790,
+    "message": "  ● Code function › count of 33 symbols should be !\n\n    TypeError: code is not a function\n\n  ● Code function › 3 symb ols should not be coded\n\n    TypeError: code is not a function\n\n  ● Code function › escape symbol should be coded always 1\n\n    TypeError: code is not a function\n\n  ● Code function › escape symbol should be coded always 3\n\n    TypeError: code is not a fun ction\n\n  ● Code function › unprintable count symbol should be\n\n    TypeError: code is not a function\n\n  ● Code function › string with length > 127 should be divided into parts\n\n    TypeError: code is not a function\n\n  ● Code function › difficult example\n \n    TypeError: code is not a function\n\n  ● Decode function › count of 33 symbols should be !\n\n    TypeError: code is not a function\n\n  ● Decode function › 3 symbols should not be coded\n\n    TypeError: code is not a function\n\n  ● Decode function › escape  symbol should be coded always 1\n\n    TypeError: code is not a function\n\n  ● Decode function › escape symbol should be coded always 3\n\n    TypeError: code is not a function\n\n  ● Decode function › unprintable count symbol should be\n\n    TypeError: code is not a function\n\n  ● Decode function › string with length > 127 should be divided into parts\n\n    TypeError: code is not a function\n\n  ● Decode function › difficult example\n\n    TypeError: code is not a function\n",
+    "name": "//code.test.js",
+    "startTime": 1621240217185,
+    "status": "failed",
+    "summary": ""
+  }],
+  "wasInterrupted": false
+});
+
+/***/ }),
+
+/***/ "./mocks/response_fail_name.js":
+/*!*************************************!*\
+  !*** ./mocks/response_fail_name.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  "numFailedTestSuites": 1,
+  "numFailedTests": 0,
+  "numPassedTestSuites": 0,
+  "numPassedTests": 0,
+  "numPendingTestSuites": 0,
+  "numPendingTests": 0,
+  "numRuntimeErrorTestSuites": 1,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 1,
+  "numTotalTests": 0,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "didUp date": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1621241419440,
+  "success": false,
+  "testResults": [{
+    "assertionResults": [],
+    "coverage": {},
+    "endTime": 1621241420660,
+    "message": "  ● Test suite failed to run\n\n    ReferenceError: blabla is not defined\n",
+    "name": "//code.test.js",
+    "startTime": 1621241420660,
+    "status": "failed",
+    "summary": ""
+  }],
+  "wasInterrupted": false
+});
+
+/***/ }),
+
+/***/ "./mocks/response_success.js":
+/*!***********************************!*\
+  !*** ./mocks/response_success.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  "numFailedTestSuites": 0,
+  "numFailedTests": 0,
+  "numPassedTestSuites": 1,
+  "numPassedTests": 14,
+  "numPendingTestSuites": 0,
+  "numPendingTests": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 1,
+  "numTotalTests": 14,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "did Update": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1621241300922,
+  "success": true,
+  "testResults": [{
+    "assertionResults": [{
+      "ancestorTitles": ["Code function"],
+      "failureMessages": [],
+      "fullName": "Code function count of 33 symbols should be !",
+      "location": null,
+      "status": "passed",
+      "title": "count of 33 symbols should be !"
+    }, {
+      "ancestorTitles": ["Code function"],
+      "failureMessages ": [],
+      "fullName": "Code function 3 symbols should not be coded",
+      "location": null,
+      "status": "passed",
+      "title": "3 symbols should not be coded"
+    }, {
+      "ancestorTitles": ["Code function"],
+      "failureMessages": [],
+      "fullName": "Code function escape symbol should be coded always 1",
+      "loca tion": null,
+      "status": "passed",
+      "title": "escape symbol should be coded always 1"
+    }, {
+      "ancestorTitles": ["Code function"],
+      "failureMessages": [],
+      "fullName": "Code function escape symbol should be coded always 3",
+      "location": null,
+      "status": "passed",
+      "title": "escape symbol should  be coded always 3"
+    }, {
+      "ancestorTitles": ["Code function"],
+      "failureMessages": [],
+      "fullName": "Code function unprintable count symbol should be",
+      "location": null,
+      "status": "passed",
+      "title": "unprintable count symbol should be"
+    }, {
+      "ancestorTitles": ["Code function"],
+      "failureM essages": [],
+      "fullName": "Code function string with length > 127 should be divided into parts",
+      "location": null,
+      "status": "passed",
+      "title": "string with length > 127 should be divided into parts"
+    }, {
+      "ancestorTitles": ["Code function"],
+      "failureMessages": [],
+      "fullName": "Code  function difficult example",
+      "location": null,
+      "status": "passed",
+      "title": "difficult example"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": [],
+      "fullName": "Decode function count of 33 symbols should be !",
+      "location": null,
+      "status": "passed",
+      "title": "count of 3 3 symbols should be !"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": [],
+      "fullName": "Decode function 3 symbols should not be coded",
+      "location": null,
+      "status": "passed",
+      "title": "3 symbols should not be coded"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMe ssages": [],
+      "fullName": "Decode function escape symbol should be coded always 1",
+      "location": null,
+      "status": "passed",
+      "title": "escape symbol should be coded always 1"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": [],
+      "fullName": "Decode function escape symbol s hould be coded always 3",
+      "location": null,
+      "status": "passed",
+      "title": "escape symbol should be coded always 3"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": [],
+      "fullName": "Decode function unprintable count symbol should be",
+      "location": null,
+      "status": "passed",
+      "title": "unprintable count symbol should be"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": [],
+      "fullName": "Decode function string with length > 127 should be divided into parts",
+      "location": null,
+      "status": "passed",
+      "title": "string with length > 127 should b e divided into parts"
+    }, {
+      "ancestorTitles": ["Decode function"],
+      "failureMessages": [],
+      "fullName": "Decode function difficult example",
+      "location": null,
+      "status": "passed",
+      "title": "difficult example"
+    }],
+    "endTime": 1621241302161,
+    "message": "",
+    "name": "//code.test.js",
+    "startTime": 1621241301548,
+    "status": "passed",
+    "summary": ""
+  }],
+  "wasInterrupted": false
+});
 
 /***/ }),
 
@@ -17202,7 +17814,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".Content {\r\n    grid-column: 2 / 3;\r\n}\r\n\r\n.App {\r\n    min-height: 100vh;\r\n    display: grid;\r\n    grid-template-columns: 20% 80%;\r\n    margin: 0 30px;\r\n}\r\n", "",{"version":3,"sources":["webpack://./App.css"],"names":[],"mappings":"AAAA;IACI,kBAAkB;AACtB;;AAEA;IACI,iBAAiB;IACjB,aAAa;IACb,8BAA8B;IAC9B,cAAc;AAClB","sourcesContent":[".Content {\r\n    grid-column: 2 / 3;\r\n}\r\n\r\n.App {\r\n    min-height: 100vh;\r\n    display: grid;\r\n    grid-template-columns: 20% 80%;\r\n    margin: 0 30px;\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "html, body {\r\n    min-height: 100vh;\r\n    max-width: 100vw;\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.Content {\r\n    grid-column: 2 / 3;\r\n    width: 100%;\r\n    padding: 70px 100px;\r\n}\r\n\r\n.App {\r\n    min-height: 100vh;\r\n    max-width: 100vw;\r\n    display: grid;\r\n    grid-template-columns: 20% 80%;\r\n    gap: 10px;\r\n    margin: 0 30px;\r\n}\r\n\r\n.FirstTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 40px;\r\n    line-height: 80px;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.SecondTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 25px;\r\n    line-height: 140.62%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.ThirdTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: bold;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.RegularText {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\na {\r\n    text-decoration: none;\r\n}\r\n\r\na:hover {\r\n    color: #000000;\r\n    text-decoration: none;\r\n}\r\n", "",{"version":3,"sources":["webpack://./App.css"],"names":[],"mappings":"AAAA;IACI,iBAAiB;IACjB,gBAAgB;IAChB,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,iBAAiB;IACjB,sBAAsB;AAC1B;;AAEA;IACI,kBAAkB;IAClB,WAAW;IACX,mBAAmB;AACvB;;AAEA;IACI,iBAAiB;IACjB,gBAAgB;IAChB,aAAa;IACb,8BAA8B;IAC9B,SAAS;IACT,cAAc;AAClB;;AAEA;IACI,+BAA+B;IAC/B,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,iBAAiB;IACjB,sBAAsB;AAC1B;;AAEA;IACI,+BAA+B;IAC/B,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,oBAAoB;IACpB,sBAAsB;AAC1B;;AAEA;IACI,+BAA+B;IAC/B,kBAAkB;IAClB,iBAAiB;IACjB,eAAe;IACf,iBAAiB;IACjB,sBAAsB;AAC1B;;AAEA;IACI,+BAA+B;IAC/B,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,iBAAiB;IACjB,sBAAsB;AAC1B;;AAEA;IACI,qBAAqB;AACzB;;AAEA;IACI,cAAc;IACd,qBAAqB;AACzB","sourcesContent":["html, body {\r\n    min-height: 100vh;\r\n    max-width: 100vw;\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.Content {\r\n    grid-column: 2 / 3;\r\n    width: 100%;\r\n    padding: 70px 100px;\r\n}\r\n\r\n.App {\r\n    min-height: 100vh;\r\n    max-width: 100vw;\r\n    display: grid;\r\n    grid-template-columns: 20% 80%;\r\n    gap: 10px;\r\n    margin: 0 30px;\r\n}\r\n\r\n.FirstTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 40px;\r\n    line-height: 80px;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.SecondTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 25px;\r\n    line-height: 140.62%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.ThirdTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: bold;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.RegularText {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\na {\r\n    text-decoration: none;\r\n}\r\n\r\na:hover {\r\n    color: #000000;\r\n    text-decoration: none;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17256,7 +17868,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".Navigation {\r\n    position: fixed;\r\n    top: 0;\r\n    margin: 70px;\r\n}\r\n", "",{"version":3,"sources":["webpack://./components/Navigation/Navigation.css"],"names":[],"mappings":"AAAA;IACI,eAAe;IACf,MAAM;IACN,YAAY;AAChB","sourcesContent":[".Navigation {\r\n    position: fixed;\r\n    top: 0;\r\n    margin: 70px;\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".Navigation {\r\n    position: sticky;\r\n    top: 70px;\r\n    margin: 70px;\r\n}\r\n\r\n.NavigationContainer {\r\n    width: 100%;\r\n    min-height: 100%;\r\n}\r\n\r\n.NavigationText {\r\n    color: #000000;\r\n}\r\n\r\n.NavigationText:hover {\r\n    opacity: 0.5;\r\n}\r\n", "",{"version":3,"sources":["webpack://./components/Navigation/Navigation.css"],"names":[],"mappings":"AAAA;IACI,gBAAgB;IAChB,SAAS;IACT,YAAY;AAChB;;AAEA;IACI,WAAW;IACX,gBAAgB;AACpB;;AAEA;IACI,cAAc;AAClB;;AAEA;IACI,YAAY;AAChB","sourcesContent":[".Navigation {\r\n    position: sticky;\r\n    top: 70px;\r\n    margin: 70px;\r\n}\r\n\r\n.NavigationContainer {\r\n    width: 100%;\r\n    min-height: 100%;\r\n}\r\n\r\n.NavigationText {\r\n    color: #000000;\r\n}\r\n\r\n.NavigationText:hover {\r\n    opacity: 0.5;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17283,7 +17895,34 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".TaskForm {\r\n    margin: 0 50px;\r\n    padding: 100px;\r\n}\r\n", "",{"version":3,"sources":["webpack://./components/Tasks/TaskForm/TaskForm.css"],"names":[],"mappings":"AAAA;IACI,cAAc;IACd,cAAc;AAClB","sourcesContent":[".TaskForm {\r\n    margin: 0 50px;\r\n    padding: 100px;\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".TaskForm {\r\n    width: 100%;\r\n}\r\n\r\n.FormButton {\r\n    border-radius: 0;\r\n    color: #272727;\r\n    border-color: #272727;\r\n    width: 160px;\r\n }\r\n\r\n.custom-file-input:focus ~ .custom-file-label,\r\n.FormButton:not(:disabled):not(.disabled):active:focus,\r\n.FormButton:focus,\r\n.FormInput:focus{\r\n    /*box-shadow: 0 0 0 0.2rem #00000040;*/\r\n    border-color: #A0A0A0;\r\n    box-shadow: none;\r\n}\r\n\r\n.FormButton:hover {\r\n    background-color: #E5E5E5;\r\n    border-color: #A0A0A0;\r\n    color: #272727;\r\n}\r\n\r\n\r\n.FormButton:not(:disabled):not(.disabled):active,\r\n.FormButton:active {\r\n    background-color: #272727;\r\n    color: #ffffff;\r\n    border-color: #A0A0A0;\r\n}\r\n\r\n.FormInput {\r\n    border-color: #A0A0A0;\r\n    border-radius: 0;\r\n}\r\n\r\n.FormInput:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n.custom-file-label::after {\r\n    background-color: #E5E5E5;\r\n    color: #272727;\r\n    width: 160px;\r\n    text-align: center;\r\n}\r\n\r\n.custom-file-label,\r\n.form-control::placeholder {\r\n    color: #A0A0A0;\r\n}\r\n", "",{"version":3,"sources":["webpack://./components/Tasks/TaskForm/TaskForm.css"],"names":[],"mappings":"AAAA;IACI,WAAW;AACf;;AAEA;IACI,gBAAgB;IAChB,cAAc;IACd,qBAAqB;IACrB,YAAY;CACf;;AAED;;;;IAII,sCAAsC;IACtC,qBAAqB;IACrB,gBAAgB;AACpB;;AAEA;IACI,yBAAyB;IACzB,qBAAqB;IACrB,cAAc;AAClB;;;AAGA;;IAEI,yBAAyB;IACzB,cAAc;IACd,qBAAqB;AACzB;;AAEA;IACI,qBAAqB;IACrB,gBAAgB;AACpB;;AAEA;IACI,eAAe;AACnB;;AAEA;IACI,yBAAyB;IACzB,cAAc;IACd,YAAY;IACZ,kBAAkB;AACtB;;AAEA;;IAEI,cAAc;AAClB","sourcesContent":[".TaskForm {\r\n    width: 100%;\r\n}\r\n\r\n.FormButton {\r\n    border-radius: 0;\r\n    color: #272727;\r\n    border-color: #272727;\r\n    width: 160px;\r\n }\r\n\r\n.custom-file-input:focus ~ .custom-file-label,\r\n.FormButton:not(:disabled):not(.disabled):active:focus,\r\n.FormButton:focus,\r\n.FormInput:focus{\r\n    /*box-shadow: 0 0 0 0.2rem #00000040;*/\r\n    border-color: #A0A0A0;\r\n    box-shadow: none;\r\n}\r\n\r\n.FormButton:hover {\r\n    background-color: #E5E5E5;\r\n    border-color: #A0A0A0;\r\n    color: #272727;\r\n}\r\n\r\n\r\n.FormButton:not(:disabled):not(.disabled):active,\r\n.FormButton:active {\r\n    background-color: #272727;\r\n    color: #ffffff;\r\n    border-color: #A0A0A0;\r\n}\r\n\r\n.FormInput {\r\n    border-color: #A0A0A0;\r\n    border-radius: 0;\r\n}\r\n\r\n.FormInput:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n.custom-file-label::after {\r\n    background-color: #E5E5E5;\r\n    color: #272727;\r\n    width: 160px;\r\n    text-align: center;\r\n}\r\n\r\n.custom-file-label,\r\n.form-control::placeholder {\r\n    color: #A0A0A0;\r\n}\r\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "../node_modules/css-loader/dist/cjs.js!./components/Tasks/TaskResults/TaskResults.css":
+/*!*********************************************************************************************!*\
+  !*** ../node_modules/css-loader/dist/cjs.js!./components/Tasks/TaskResults/TaskResults.css ***!
+  \*********************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "../node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "../node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".TaskResults {\r\n    margin: 70px 0;\r\n}\r\n\r\n.TaskResultsForm {\r\n    display: flex;\r\n    flex-direction: column;\r\n    margin: 10px 0;\r\n}\r\n\r\n.Assertions {\r\n    display: grid;\r\n    grid-template-columns: 25% 30% 10% 35%;\r\n    gap: 10px;\r\n    margin: 10px 0;\r\n}\r\n\r\n.TaskResultsItem {\r\n    margin: 5px 0;\r\n}\r\n\r\n.Passed {\r\n    color: #05ae05;\r\n}\r\n\r\n.Failed {\r\n    color: #CE0014;\r\n }\r\n", "",{"version":3,"sources":["webpack://./components/Tasks/TaskResults/TaskResults.css"],"names":[],"mappings":"AAAA;IACI,cAAc;AAClB;;AAEA;IACI,aAAa;IACb,sBAAsB;IACtB,cAAc;AAClB;;AAEA;IACI,aAAa;IACb,sCAAsC;IACtC,SAAS;IACT,cAAc;AAClB;;AAEA;IACI,aAAa;AACjB;;AAEA;IACI,cAAc;AAClB;;AAEA;IACI,cAAc;CACjB","sourcesContent":[".TaskResults {\r\n    margin: 70px 0;\r\n}\r\n\r\n.TaskResultsForm {\r\n    display: flex;\r\n    flex-direction: column;\r\n    margin: 10px 0;\r\n}\r\n\r\n.Assertions {\r\n    display: grid;\r\n    grid-template-columns: 25% 30% 10% 35%;\r\n    gap: 10px;\r\n    margin: 10px 0;\r\n}\r\n\r\n.TaskResultsItem {\r\n    margin: 5px 0;\r\n}\r\n\r\n.Passed {\r\n    color: #05ae05;\r\n}\r\n\r\n.Failed {\r\n    color: #CE0014;\r\n }\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -54244,6 +54883,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_TaskForm_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./components/Tasks/TaskResults/TaskResults.css":
+/*!******************************************************!*\
+  !*** ./components/Tasks/TaskResults/TaskResults.css ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_TaskResults_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!./TaskResults.css */ "../node_modules/css-loader/dist/cjs.js!./components/Tasks/TaskResults/TaskResults.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_TaskResults_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_TaskResults_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 

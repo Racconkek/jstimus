@@ -1,5 +1,18 @@
 .Navigation {
-    position: fixed;
-    top: 0;
+    position: sticky;
+    top: 70px;
     margin: 70px;
+}
+
+.NavigationContainer {
+    width: 100%;
+    min-height: 100%;
+}
+
+.NavigationText {
+    color: #000000;
+}
+
+.NavigationText:hover {
+    opacity: 0.5;
 }

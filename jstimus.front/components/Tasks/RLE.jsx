@@ -6,17 +6,20 @@ import TaskResults from "./TaskResults/TaskResults.jsx";
 
 export default function RLE() {
 
-    const [ results, setResults ] = useState(null);
+    const [results, setResults ] = useState(null);
+    const [isLoading, setLoading] = useState(false);
 
-    const handleResults = (results) => {
-        setResults(results.data);
-        console.log(results.data);
+    const handleResults = ({results, isLoading}) => {
+        setLoading(isLoading);
+        setResults(results);
+        console.log(results, isLoading);
     }
 
     return <div className={'Content'}>
+        <h1 className={'FirstTitle'}>RLE</h1>
         <TaskForm taskName={'rle'} taskFiles={[
-            { fileId: 'mainSolution', fileName: 'Решение'}
+            { fileId: 'mainSolution', fileName: 'Файл с решением'}
         ]} onResults={handleResults}/>
-        {results ? <TaskResults results={results}/> : <div>Нет результатов</div>}
+        <TaskResults results={results} isLoading={isLoading}/>
     </div>
 }

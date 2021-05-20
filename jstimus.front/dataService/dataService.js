@@ -1,4 +1,7 @@
 import axios from "axios";
+import response_success from '../mocks/response_success.js';
+import response_fail from "../mocks/response_fail.js";
+import response_fail_name from "../mocks/response_fail_name.js";
 
 let baseUrl = window.location.protocol + '\/\/' +
     window.location.hostname + ':' + '3000';
@@ -29,5 +32,20 @@ export default class DataService {
             console.error(error);
             return null;
         }
+    }
+
+    static async sendFilesMockSuccess(taskName, studentName, files) {
+        return new Promise(resolve =>
+            setTimeout(() => resolve(JSON.stringify(response_success)), 1000))
+    }
+
+    static async sendFilesMockFail(taskName, studentName, files) {
+        return new Promise(resolve =>
+            setTimeout(() => resolve(JSON.stringify(response_fail)), 1000))
+    }
+
+    static async sendFilesMockFailName(taskName, studentName, files) {
+        return new Promise(resolve =>
+            setTimeout(() => resolve(JSON.stringify(response_fail_name)), 1000))
     }
 }
