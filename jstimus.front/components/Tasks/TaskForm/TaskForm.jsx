@@ -59,16 +59,15 @@ export default class TaskForm extends React.Component {
         const hasAllFiles = this.state.files.every(e => e.codeFile !== '')
         // console.log('submit ' + hasAllFiles);
         let {studentName, files } = this.state;
-        this.props.onResults({results: null, isLoading: true});
+        this.props.onResults({results: null, isLoading: true, error: null});
         DataService.sendFiles(this.props.taskName, studentName, files)
             .then((res) => {
                 const results = JSON.parse(res);
-                // console.log(j);
-                this.props.onResults({results: results, isLoading: false});
+                this.props.onResults({results: results, isLoading: false, error: null});
             })
             .catch((err) => {
-                console.log(err);
-                this.props.onResults(null, false);
+                // console.log('task form ', err.response);
+                this.props.onResults({results: null, isLoading: false, error: err.response.data});
             })
     }
 

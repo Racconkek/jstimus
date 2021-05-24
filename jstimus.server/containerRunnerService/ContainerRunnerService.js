@@ -6,7 +6,7 @@ class ContainerRunnerService {
         this.imageTag = imageTag;
         this.imagePath = imagePath;
         this.result = '';
-        this.error = [];
+        this.error = '';
     }
 
     async buildAndRunContainer() {
@@ -19,12 +19,19 @@ class ContainerRunnerService {
             imageBuild.on('error', (error) => {
                 console.log(`image error: ${error.message}`);
                 imageBuild.kill();
-                this.error.append(error.message);
+                rej(error.message);
             });
+
+            imageBuild.stderr.on('data', (data) => {
+                this.error += `${data}\n`;
+            })
 
             imageBuild.on("close", async code => {
                 console.log(`image built with code ${code}`);
-                if (code !== 0) rej(code);
+                if (code !== 0) {
+                    rej(this.error);
+                    return;
+                }
                 try {
                     const run = await this.runContainer(this.imageName, this.imageTag);
                     res(this.result);
@@ -50,8 +57,8 @@ class ContainerRunnerService {
             });
 
             containerRun.stderr.on('data', (data) => {
-                console.log(`container stderr: ${data}`);
-                // this.result += data + '\n';
+                // console.log(`container stderr: ${data}`);
+                this.error += `${data}\n`;
             });
 
             // containerRun.on('error', (data) => {

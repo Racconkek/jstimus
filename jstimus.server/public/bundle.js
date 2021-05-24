@@ -2165,8 +2165,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       _dataService_dataService_js__WEBPACK_IMPORTED_MODULE_4__.default.getTaskConfigs().then(function (res) {
-        var results = JSON.parse(res);
-        console.log(results.tasks);
+        var results = JSON.parse(res); // console.log(results.tasks);
 
         _this2.setState({
           configs: results.tasks
@@ -2248,7 +2247,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function Navigation(_ref) {
   var tasks = _ref.tasks;
-  console.log(tasks);
+  // console.log(tasks);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'NavigationContainer'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default, {
@@ -2312,12 +2311,18 @@ function Task(_ref) {
       isLoading = _useState4[0],
       setLoading = _useState4[1];
 
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState6 = _slicedToArray(_useState5, 2),
+      error = _useState6[0],
+      setError = _useState6[1];
+
   var handleResults = function handleResults(_ref2) {
     var results = _ref2.results,
-        isLoading = _ref2.isLoading;
+        isLoading = _ref2.isLoading,
+        error = _ref2.error;
     setLoading(isLoading);
     setResults(results);
-    console.log(results, isLoading);
+    setError(error); // console.log('Task ', results, isLoading, error);
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -2332,7 +2337,8 @@ function Task(_ref) {
     onResults: handleResults
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TaskResults_TaskResults_jsx__WEBPACK_IMPORTED_MODULE_3__.default, {
     results: results,
-    isLoading: isLoading
+    isLoading: isLoading,
+    error: error
   }));
 }
 
@@ -2449,20 +2455,25 @@ var TaskForm = /*#__PURE__*/function (_React$Component) {
 
       _this.props.onResults({
         results: null,
-        isLoading: true
+        isLoading: true,
+        error: null
       });
 
       _dataService_dataService_js__WEBPACK_IMPORTED_MODULE_2__.default.sendFiles(_this.props.taskName, studentName, files).then(function (res) {
-        var results = JSON.parse(res); // console.log(j);
+        var results = JSON.parse(res);
 
         _this.props.onResults({
           results: results,
-          isLoading: false
+          isLoading: false,
+          error: null
         });
       })["catch"](function (err) {
-        console.log(err);
-
-        _this.props.onResults(null, false);
+        // console.log('task form ', err.response);
+        _this.props.onResults({
+          results: null,
+          isLoading: false,
+          error: err.response.data
+        });
       });
     });
 
@@ -2617,14 +2628,17 @@ var TaskResults = /*#__PURE__*/function (_React$Component) {
   _createClass(TaskResults, [{
     key: "render",
     value: function render() {
-      // console.log(this.props.results);
+      console.log(this.props.error);
       var _this$props = this.props,
           results = _this$props.results,
-          isLoading = _this$props.isLoading;
+          isLoading = _this$props.isLoading,
+          error = _this$props.error;
       var testResults = results ? results.testResults[0] : null;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: 'Block'
-      }, isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+      }, error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+        className: 'Failed'
+      }, error) : isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
         className: 'FirstTitle'
       }, "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u043E\u0432") : !results ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
         className: 'FirstTitle'
@@ -2669,7 +2683,8 @@ var TaskResults = /*#__PURE__*/function (_React$Component) {
 
 _defineProperty(TaskResults, "propTypes", {
   results: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().object),
-  isLoading: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool)
+  isLoading: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().bool),
+  error: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string)
 });
 
 
@@ -2768,10 +2783,9 @@ var DataService = /*#__PURE__*/function () {
               case 12:
                 _context.prev = 12;
                 _context.t0 = _context["catch"](5);
-                console.error(_context.t0);
-                return _context.abrupt("return", null);
+                throw _context.t0;
 
-              case 16:
+              case 15:
               case "end":
                 return _context.stop();
             }

@@ -25,7 +25,7 @@ module.exports = async function checkTask(req, res) {
 
         const isCreated = await createTempContainerDir(files, containerPath, fields.taskName);
         if (!isCreated) {
-            return res.status(500).send({messageerror: 'Cant create container from template'});
+            return res.status(500).send('Cant create container directory from template');
         }
         const imageName = containerName;
         const imageTag = `${containerName}_tag`;
@@ -37,11 +37,11 @@ module.exports = async function checkTask(req, res) {
         const data = result.split('\n')[4];
         res.json(data);
     } catch (err) {
-        console.error(err);
+        console.log(err);
         if (containerPath) {
             await deleteTempContainerDir(containerPath);
         }
-        return res.status(500).send({messageerror: err.errors});
+        return res.status(500).send(err);
     }
 }
 

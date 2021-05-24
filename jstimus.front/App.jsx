@@ -21,7 +21,7 @@ export default class App extends React.Component{
         DataService.getTaskConfigs()
             .then((res) => {
                 const results = JSON.parse(res);
-                console.log(results.tasks);
+                // console.log(results.tasks);
                 this.setState({configs: results.tasks});
             })
             .catch((error) => console.error(error));
@@ -35,12 +35,6 @@ export default class App extends React.Component{
                     <Route exact path={'/'} component={Home}/>
                     {this.state.configs && this.state.configs.map(item =>
                         <Route key={item.taskName} path={item.link}><Task task={item}/></Route>)}
-                    {/*<Route path={'/tasks/RLE'}>*/}
-                    {/*    <RLE/>*/}
-                    {/*</Route>*/}
-                    {/*<Route path={'/tasks/Entropy'}>*/}
-                    {/*    <Entropy/>*/}
-                    {/*</Route>*/}
                 </Switch>
             </BrowserRouter>
         </div>

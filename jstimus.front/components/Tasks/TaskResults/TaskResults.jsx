@@ -7,15 +7,16 @@ import TaskResultItem from "./TaskResultItem.jsx";
 export default class TaskResults extends React.Component {
     static propTypes = {
         results: PropTypes.object,
-        isLoading: PropTypes.bool
+        isLoading: PropTypes.bool,
+        error: PropTypes.string
     };
 
     render() {
-        // console.log(this.props.results);
-        const { results, isLoading } = this.props;
+        console.log(this.props.error);
+        const { results, isLoading, error } = this.props;
         const testResults = results ? results.testResults[0] : null;
         return <div className={'Block'}>
-            {isLoading ? <span className={'FirstTitle'}>Загрузка результатов</span>  : !results ?
+            {error ? <span className={'Failed'}>{error}</span> : isLoading ? <span className={'FirstTitle'}>Загрузка результатов</span>  : !results ?
                 <span className={'FirstTitle'}>Нет результатов</span> :
                 <div>
                     <span className={'FirstTitle'}>Результаты:</span>

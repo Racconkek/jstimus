@@ -30,8 +30,8 @@ export default class DataService {
             );
             return res.data;
         } catch (error) {
-            console.error(error);
-            return null;
+            // console.error('Data Service ', error.response.data);
+            throw error;
         }
     }
 
