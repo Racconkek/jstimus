@@ -14,7 +14,7 @@ export default class TaskResults extends React.Component {
         // console.log(this.props.results);
         const { results, isLoading } = this.props;
         const testResults = results ? results.testResults[0] : null;
-        return <div className={'TaskResults'}>
+        return <div className={'Block'}>
             {isLoading ? <span className={'FirstTitle'}>Загрузка результатов</span>  : !results ?
                 <span className={'FirstTitle'}>Нет результатов</span> :
                 <div>

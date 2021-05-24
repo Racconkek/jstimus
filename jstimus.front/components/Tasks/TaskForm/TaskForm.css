@@ -1,5 +1,6 @@
 .TaskForm {
-    width: 100%;
+    width: 50%;
+    min-width: 160px;
 }
 
 .FormButton {

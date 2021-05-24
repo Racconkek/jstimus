@@ -2110,8 +2110,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _App_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App.css */ "./App.css");
 /* harmony import */ var _components_Home_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Home.jsx */ "./components/Home.jsx");
 /* harmony import */ var _components_Navigation_Navigation_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Navigation/Navigation.jsx */ "./components/Navigation/Navigation.jsx");
-/* harmony import */ var _components_Tasks_RLE_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Tasks/RLE.jsx */ "./components/Tasks/RLE.jsx");
-/* harmony import */ var _components_Tasks_Entropy_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Tasks/Entropy.jsx */ "./components/Tasks/Entropy.jsx");
+/* harmony import */ var _dataService_dataService_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dataService/dataService.js */ "./dataService/dataService.js");
+/* harmony import */ var _components_Tasks_Task_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Tasks/Task.jsx */ "./components/Tasks/Task.jsx");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
 
@@ -2119,17 +2140,67 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function App() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: 'App'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Navigation_Navigation_jsx__WEBPACK_IMPORTED_MODULE_3__.default, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
-    exact: true,
-    path: '/',
-    component: _components_Home_jsx__WEBPACK_IMPORTED_MODULE_2__.default
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
-    path: '/tasks/RLE'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Tasks_RLE_jsx__WEBPACK_IMPORTED_MODULE_4__.default, null)))));
-}
+
+
+var App = /*#__PURE__*/function (_React$Component) {
+  _inherits(App, _React$Component);
+
+  var _super = _createSuper(App);
+
+  function App() {
+    var _this;
+
+    _classCallCheck(this, App);
+
+    _this = _super.call(this);
+    _this.state = {
+      configs: null
+    };
+    return _this;
+  }
+
+  _createClass(App, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      _dataService_dataService_js__WEBPACK_IMPORTED_MODULE_4__.default.getTaskConfigs().then(function (res) {
+        var results = JSON.parse(res);
+        console.log(results.tasks);
+
+        _this2.setState({
+          configs: results.tasks
+        });
+      })["catch"](function (error) {
+        return console.error(error);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: 'App'
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Navigation_Navigation_jsx__WEBPACK_IMPORTED_MODULE_3__.default, {
+        tasks: this.state.configs
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
+        exact: true,
+        path: '/',
+        component: _components_Home_jsx__WEBPACK_IMPORTED_MODULE_2__.default
+      }), this.state.configs && this.state.configs.map(function (item) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
+          key: item.taskName,
+          path: item.link
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Tasks_Task_jsx__WEBPACK_IMPORTED_MODULE_5__.default, {
+          task: item
+        }));
+      }))));
+    }
+  }]);
+
+  return App;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+
 
 /***/ }),
 
@@ -2145,14 +2216,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ Home)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../node_modules/react/index.js");
-/* harmony import */ var _Home_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Home.css */ "./components/Home.css");
-
-
 
 function Home() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: 'Content Home'
-  }, "\u0417\u0434\u0435\u0441\u044C \u0432\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u0441\u0434\u0430\u0442\u044C \u0437\u0430\u0434\u0430\u0447\u043A\u0438 \u043F\u043E \u0441\u043A\u0440\u0438\u043F\u0442\u0430\u043C :3");
+    className: 'Content'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", {
+    className: 'FirstTitle'
+  }, "\u0421\u043A\u0440\u0438\u043F\u0442\u044B"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: 'RegularText'
+  }, "\u0417\u0434\u0435\u0441\u044C \u0432\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u0441\u0434\u0430\u0432\u0430\u0442\u044C \u0437\u0430\u0434\u0430\u0447\u043A\u0438 \u043F\u043E \u0441\u043A\u0440\u0438\u043F\u0442\u0430\u043C"));
 }
 
 /***/ }),
@@ -2174,7 +2246,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function Navigation() {
+function Navigation(_ref) {
+  var tasks = _ref.tasks;
+  console.log(tasks);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'NavigationContainer'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default, {
@@ -2182,59 +2256,32 @@ function Navigation() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default.Link, {
     href: "/",
     className: 'RegularText NavigationText'
-  }, "\u0413\u043B\u0430\u0432\u043D\u0430\u044F"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default.Link, {
-    href: "/tasks/RLE",
-    className: 'RegularText NavigationText'
-  }, "RLE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default.Link, {
-    href: "/tasks/Entropy",
-    className: 'RegularText NavigationText'
-  }, "\u042D\u043D\u0442\u0440\u043E\u043F\u0438\u044F \u0428\u0435\u043D\u043D\u043E\u043D\u0430")));
+  }, "\u0413\u043B\u0430\u0432\u043D\u0430\u044F"), tasks && tasks.map(function (item) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__.default.Link, {
+      key: item.taskName,
+      href: item.link,
+      className: 'RegularText NavigationText'
+    }, item.taskFullName);
+  })));
 }
 
 /***/ }),
 
-/***/ "./components/Tasks/Entropy.jsx":
-/*!**************************************!*\
-  !*** ./components/Tasks/Entropy.jsx ***!
-  \**************************************/
+/***/ "./components/Tasks/Task.jsx":
+/*!***********************************!*\
+  !*** ./components/Tasks/Task.jsx ***!
+  \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Entropy)
+/* harmony export */   "default": () => (/* binding */ Task)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../node_modules/react/index.js");
-/* harmony import */ var _TaskForm_TaskForm_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TaskForm/TaskForm.jsx */ "./components/Tasks/TaskForm/TaskForm.jsx");
-
-
-function Entropy() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: 'Content'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TaskForm_TaskForm_jsx__WEBPACK_IMPORTED_MODULE_1__.default, {
-    taskFiles: [{
-      fileId: 'mainSolution',
-      fileName: 'Решение'
-    }]
-  }));
-}
-
-/***/ }),
-
-/***/ "./components/Tasks/RLE.jsx":
-/*!**********************************!*\
-  !*** ./components/Tasks/RLE.jsx ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ RLE)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../node_modules/react/index.js");
-/* harmony import */ var _TaskForm_TaskForm_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TaskForm/TaskForm.jsx */ "./components/Tasks/TaskForm/TaskForm.jsx");
-/* harmony import */ var _TaskResults_TaskResults_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaskResults/TaskResults.jsx */ "./components/Tasks/TaskResults/TaskResults.jsx");
+/* harmony import */ var _Task_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Task.css */ "./components/Tasks/Task.css");
+/* harmony import */ var _TaskForm_TaskForm_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TaskForm/TaskForm.jsx */ "./components/Tasks/TaskForm/TaskForm.jsx");
+/* harmony import */ var _TaskResults_TaskResults_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TaskResults/TaskResults.jsx */ "./components/Tasks/TaskResults/TaskResults.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2251,7 +2298,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function RLE() {
+
+function Task(_ref) {
+  var task = _ref.task;
+
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
       results = _useState2[0],
@@ -2262,9 +2312,9 @@ function RLE() {
       isLoading = _useState4[0],
       setLoading = _useState4[1];
 
-  var handleResults = function handleResults(_ref) {
-    var results = _ref.results,
-        isLoading = _ref.isLoading;
+  var handleResults = function handleResults(_ref2) {
+    var results = _ref2.results,
+        isLoading = _ref2.isLoading;
     setLoading(isLoading);
     setResults(results);
     console.log(results, isLoading);
@@ -2274,14 +2324,13 @@ function RLE() {
     className: 'Content'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", {
     className: 'FirstTitle'
-  }, "RLE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TaskForm_TaskForm_jsx__WEBPACK_IMPORTED_MODULE_1__.default, {
-    taskName: 'rle',
-    taskFiles: [{
-      fileId: 'mainSolution',
-      fileName: 'Файл с решением'
-    }],
+  }, task.taskFullName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: 'TaskDescription RegularText Block'
+  }, task.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TaskForm_TaskForm_jsx__WEBPACK_IMPORTED_MODULE_2__.default, {
+    taskName: task.taskName,
+    taskFiles: task.taskFiles,
     onResults: handleResults
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TaskResults_TaskResults_jsx__WEBPACK_IMPORTED_MODULE_2__.default, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TaskResults_TaskResults_jsx__WEBPACK_IMPORTED_MODULE_3__.default, {
     results: results,
     isLoading: isLoading
   }));
@@ -2404,11 +2453,10 @@ var TaskForm = /*#__PURE__*/function (_React$Component) {
       });
 
       _dataService_dataService_js__WEBPACK_IMPORTED_MODULE_2__.default.sendFiles(_this.props.taskName, studentName, files).then(function (res) {
-        var j = JSON.parse(res);
-        console.log(j);
+        var results = JSON.parse(res); // console.log(j);
 
         _this.props.onResults({
-          results: j,
+          results: results,
           isLoading: false
         });
       })["catch"](function (err) {
@@ -2438,7 +2486,7 @@ var TaskForm = /*#__PURE__*/function (_React$Component) {
 
       var inputs = this.state.files;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        className: 'TaskForm'
+        className: 'TaskForm Block'
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default, {
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Group, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Control, {
@@ -2499,12 +2547,10 @@ __webpack_require__.r(__webpack_exports__);
 
 function TaskResultItem(_ref) {
   var item = _ref.item,
-      key = _ref.key,
       status = _ref.status;
   // console.log(item);
   return item ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: 'Assertions',
-    key: key
+    className: 'Assertions'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, item.ancestorTitles ? item.ancestorTitles.join(', ') : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, item.title ? item.title : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: item.status && item.status === 'passed' ? 'Passed' : 'Failed'
   }, item.status ? item.status : ''), !status && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, item.failureMessages)) : '';
@@ -2577,7 +2623,7 @@ var TaskResults = /*#__PURE__*/function (_React$Component) {
           isLoading = _this$props.isLoading;
       var testResults = results ? results.testResults[0] : null;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        className: 'TaskResults'
+        className: 'Block'
       }, isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
         className: 'FirstTitle'
       }, "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u043E\u0432") : !results ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
@@ -2646,6 +2692,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mocks_response_success_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mocks/response_success.js */ "./mocks/response_success.js");
 /* harmony import */ var _mocks_response_fail_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mocks/response_fail.js */ "./mocks/response_fail.js");
 /* harmony import */ var _mocks_response_fail_name_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mocks/response_fail_name.js */ "./mocks/response_fail_name.js");
+/* harmony import */ var _mocks_response_some_fail_some_success_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mocks/response_some_fail_some_success.js */ "./mocks/response_some_fail_some_success.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -2661,6 +2708,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -2738,44 +2786,53 @@ var DataService = /*#__PURE__*/function () {
       return sendFiles;
     }()
   }, {
-    key: "sendFilesMockSuccess",
+    key: "getTaskConfigs",
     value: function () {
-      var _sendFilesMockSuccess = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(taskName, studentName, files) {
+      var _getTaskConfigs = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var res;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                return _context2.abrupt("return", new Promise(function (resolve) {
-                  return setTimeout(function () {
-                    return resolve(JSON.stringify(_mocks_response_success_js__WEBPACK_IMPORTED_MODULE_1__.default));
-                  }, 1000);
-                }));
+                _context2.prev = 0;
+                _context2.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_0___default().get(baseUrl + '/configs');
 
-              case 1:
+              case 3:
+                res = _context2.sent;
+                return _context2.abrupt("return", res.data);
+
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](0);
+                console.error(_context2.t0);
+                return _context2.abrupt("return", null);
+
+              case 11:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2);
+        }, _callee2, null, [[0, 7]]);
       }));
 
-      function sendFilesMockSuccess(_x4, _x5, _x6) {
-        return _sendFilesMockSuccess.apply(this, arguments);
+      function getTaskConfigs() {
+        return _getTaskConfigs.apply(this, arguments);
       }
 
-      return sendFilesMockSuccess;
+      return getTaskConfigs;
     }()
   }, {
-    key: "sendFilesMockFail",
+    key: "sendFilesMockSuccess",
     value: function () {
-      var _sendFilesMockFail = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(taskName, studentName, files) {
+      var _sendFilesMockSuccess = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(taskName, studentName, files) {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 return _context3.abrupt("return", new Promise(function (resolve) {
                   return setTimeout(function () {
-                    return resolve(JSON.stringify(_mocks_response_fail_js__WEBPACK_IMPORTED_MODULE_2__.default));
+                    return resolve(JSON.stringify(_mocks_response_success_js__WEBPACK_IMPORTED_MODULE_1__.default));
                   }, 1000);
                 }));
 
@@ -2787,23 +2844,23 @@ var DataService = /*#__PURE__*/function () {
         }, _callee3);
       }));
 
-      function sendFilesMockFail(_x7, _x8, _x9) {
-        return _sendFilesMockFail.apply(this, arguments);
+      function sendFilesMockSuccess(_x4, _x5, _x6) {
+        return _sendFilesMockSuccess.apply(this, arguments);
       }
 
-      return sendFilesMockFail;
+      return sendFilesMockSuccess;
     }()
   }, {
-    key: "sendFilesMockFailName",
+    key: "sendFilesMockFail",
     value: function () {
-      var _sendFilesMockFailName = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(taskName, studentName, files) {
+      var _sendFilesMockFail = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(taskName, studentName, files) {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 return _context4.abrupt("return", new Promise(function (resolve) {
                   return setTimeout(function () {
-                    return resolve(JSON.stringify(_mocks_response_fail_name_js__WEBPACK_IMPORTED_MODULE_3__.default));
+                    return resolve(JSON.stringify(_mocks_response_fail_js__WEBPACK_IMPORTED_MODULE_2__.default));
                   }, 1000);
                 }));
 
@@ -2815,11 +2872,67 @@ var DataService = /*#__PURE__*/function () {
         }, _callee4);
       }));
 
+      function sendFilesMockFail(_x7, _x8, _x9) {
+        return _sendFilesMockFail.apply(this, arguments);
+      }
+
+      return sendFilesMockFail;
+    }()
+  }, {
+    key: "sendFilesMockFailName",
+    value: function () {
+      var _sendFilesMockFailName = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(taskName, studentName, files) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                return _context5.abrupt("return", new Promise(function (resolve) {
+                  return setTimeout(function () {
+                    return resolve(JSON.stringify(_mocks_response_fail_name_js__WEBPACK_IMPORTED_MODULE_3__.default));
+                  }, 1000);
+                }));
+
+              case 1:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }));
+
       function sendFilesMockFailName(_x10, _x11, _x12) {
         return _sendFilesMockFailName.apply(this, arguments);
       }
 
       return sendFilesMockFailName;
+    }()
+  }, {
+    key: "sendFilesMockSomeFailSomeSuccess",
+    value: function () {
+      var _sendFilesMockSomeFailSomeSuccess = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(taskName, studentName, files) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                return _context6.abrupt("return", new Promise(function (resolve) {
+                  return setTimeout(function () {
+                    return resolve(JSON.stringify(_mocks_response_some_fail_some_success_js__WEBPACK_IMPORTED_MODULE_4__.default));
+                  }, 1000);
+                }));
+
+              case 1:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }));
+
+      function sendFilesMockSomeFailSomeSuccess(_x13, _x14, _x15) {
+        return _sendFilesMockSomeFailSomeSuccess.apply(this, arguments);
+      }
+
+      return sendFilesMockSomeFailSomeSuccess;
     }()
   }]);
 
@@ -3035,6 +3148,103 @@ __webpack_require__.r(__webpack_exports__);
     "summary": ""
   }],
   "wasInterrupted": false
+});
+
+/***/ }),
+
+/***/ "./mocks/response_some_fail_some_success.js":
+/*!**************************************************!*\
+  !*** ./mocks/response_some_fail_some_success.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  "numFailedTestSuites": 1,
+  "numFailedTests": 5,
+  "numPassedTestSuites": 0,
+  "numPassedTests": 1,
+  "numPendingTestSuites": 0,
+  "numPendingTests": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 1,
+  "numTotalTests": 6,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "didUp date": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1621763964814,
+  "success": false,
+  "testResults": [{
+    "assertionResults": [{
+      "ancestorTitles": ["Main function"],
+      "failureMessages": ["Error: expect(received).toBeCloseTo(expected, precision)\n\nExpected: 0.19143325481419346\nReceived: 0\n\nExpected precision:    8\nExpected difference: < 0.000000005\nReceived difference:  0.19143325481419346\n    at Object.<anonymous> (/code.test.js:9:22)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n  at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Main function entropy of 33 equal symbols and  1 other",
+      "location": null,
+      "status": "failed",
+      "title": "entropy of 33 equal symbols and 1 other"
+    }, {
+      "ancestorTitles": ["Main function"],
+      "failureMessages": ["Error: expect(received).toBeCloseTo(expected, precision)\n\nExpected: 1.0000000000000004\nReceived: 0\n\nExpected precision:    8\nExpected difference: < 0.000000005\nReceived difference:   1.0000000000000004\n    at Object.<anonymous> (/code.test.js:15:22)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest -jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/ta sk_queues:94:5)"],
+      "fullName": "Main function entropy of english alphabet",
+      "location": null,
+      "status": "failed",
+      "title": "entropy of english alphabet"
+    }, {
+      "ancestorTitles": ["Main function"],
+      "failureMessages": ["Error: expect(received).toBeCloseTo(expected, precision)\n\nExp ected: 0.85636043620525\nReceived: 0\n\nExpected precision:    8\nExpected difference: < 0.000000005\nReceived difference:   0.85636043620525\n    at Object.<anonymous> (/code.test.js:25:22)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jasmineAsy ncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n    at proc essTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Main function entropy of lorem ipsum",
+      "location": null,
+      "status": "failed",
+      "title": "entropy of lorem ipsum"
+    }, {
+      "ancestorTitles": ["Main function"],
+      "failureMessages": ["Error: expect(received).to BeCloseTo(expected, precision)\n\nExpected: 1\nReceived: 0\n\nExpected precision:    8\nExpected difference: < 0.000000005\nReceived difference:   1\n    at Object.<anonymous> (/code.test.js:31:22)\n    at Object.asyncJestTest (/node_modules/jest-jasmine2/build/jas mineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:75:41\n at processTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Main function entropy of abcd",
+      "location": null,
+      "status": "failed",
+      "title": "entropy of abcd"
+    }, {
+      "ancestorTitles": ["Main function"],
+      "failureMessages": ["Error: expect(received).toBeClose To(expected, precision)\n\nExpected: 0.8787409903782898\nReceived: 0\n\nExpected precision:    8\nExpected difference: < 0.000000005\nReceived difference:   0.8787409903782898\n    at Object.<anonymous> (/code.test.js:37:22)\n    at Object.asyncJestTest (/node_modu les/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\n    at /node_modules/jest-jasmine2/build/queueRunner.js:45:12\n    at new Promise (<anonymous>)\n    at mapper (/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\n    at /node_modules/jest-jasmine2/build /queueRunner.js:75:41\n    at processTicksAndRejections (node:internal/process/task_queues:94:5)"],
+      "fullName": "Main function entropy of abrakadabra",
+      "location": null,
+      "status": "failed",
+      "title": "entropy of abrakadabra"
+    }, {
+      "ancestorTitles": ["Main function"],
+      "failureMess ages": [],
+      "fullName": "Main function entropy of aaaaa",
+      "location": null,
+      "status": "passed",
+      "title": "entropy of aaaaa"
+    }],
+    "endTime": 1621763965987,
+    "message": "  ● Main function › entropy of 33 equal symbols and 1 other\n\n    expect(received).toBeCloseTo(expected, precisio n)\n\n    Expected: 0.19143325481419346\n    Received: 0\n\n    Expected precision:    8\n    Expected difference: < 0.000000005\n    Received difference:   0.19143325481419346\n\n  ● Main function › entropy of english alphabet\n\n    expect(received).toBeCloseTo(e xpected, precision)\n\n    Expected: 1.0000000000000004\n    Received: 0\n\n    Expected precision:    8\n    Expected difference: < 0.000000005\n    Received difference:   1.0000000000000004\n\n  ● Main function › entropy of lorem ipsum\n\n    expect(received).toB eCloseTo(expected, precision)\n\n    Expected: 0.85636043620525\n    Received: 0\n\n    Expected precision:    8\n    Expected difference: < 0.000000005\n    Received difference:   0.85636043620525\n\n  ● Main function › entropy of abcd\n\n    expect(received).toBe CloseTo(expected, precision)\n\n    Expected: 1\n    Received: 0\n\n    Expected precision:    8\n    Expected difference: < 0.000000005\n    Received difference:   1\n\n  ● Main function › entropy of abrakadabra\n\n    expect(received).toBeCloseTo(expected, precis ion)\n\n    Expected: 0.8787409903782898\n    Received: 0\n\n    Expected precision:    8\n    Expected difference: < 0.000000005\n    Received difference:   0.8787409903782898\n",
+    "name": "//code.test.js",
+    "startTime": 1621763965449,
+    "status": "failed",
+    "summary": ""
+  }],
+  "w asInterrupted": false
 });
 
 /***/ }),
@@ -17814,34 +18024,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "html, body {\r\n    min-height: 100vh;\r\n    max-width: 100vw;\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.Content {\r\n    grid-column: 2 / 3;\r\n    width: 100%;\r\n    padding: 70px 100px;\r\n}\r\n\r\n.App {\r\n    min-height: 100vh;\r\n    max-width: 100vw;\r\n    display: grid;\r\n    grid-template-columns: 20% 80%;\r\n    gap: 10px;\r\n    margin: 0 30px;\r\n}\r\n\r\n.FirstTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 40px;\r\n    line-height: 80px;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.SecondTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 25px;\r\n    line-height: 140.62%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.ThirdTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: bold;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.RegularText {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\na {\r\n    text-decoration: none;\r\n}\r\n\r\na:hover {\r\n    color: #000000;\r\n    text-decoration: none;\r\n}\r\n", "",{"version":3,"sources":["webpack://./App.css"],"names":[],"mappings":"AAAA;IACI,iBAAiB;IACjB,gBAAgB;IAChB,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,iBAAiB;IACjB,sBAAsB;AAC1B;;AAEA;IACI,kBAAkB;IAClB,WAAW;IACX,mBAAmB;AACvB;;AAEA;IACI,iBAAiB;IACjB,gBAAgB;IAChB,aAAa;IACb,8BAA8B;IAC9B,SAAS;IACT,cAAc;AAClB;;AAEA;IACI,+BAA+B;IAC/B,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,iBAAiB;IACjB,sBAAsB;AAC1B;;AAEA;IACI,+BAA+B;IAC/B,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,oBAAoB;IACpB,sBAAsB;AAC1B;;AAEA;IACI,+BAA+B;IAC/B,kBAAkB;IAClB,iBAAiB;IACjB,eAAe;IACf,iBAAiB;IACjB,sBAAsB;AAC1B;;AAEA;IACI,+BAA+B;IAC/B,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,iBAAiB;IACjB,sBAAsB;AAC1B;;AAEA;IACI,qBAAqB;AACzB;;AAEA;IACI,cAAc;IACd,qBAAqB;AACzB","sourcesContent":["html, body {\r\n    min-height: 100vh;\r\n    max-width: 100vw;\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.Content {\r\n    grid-column: 2 / 3;\r\n    width: 100%;\r\n    padding: 70px 100px;\r\n}\r\n\r\n.App {\r\n    min-height: 100vh;\r\n    max-width: 100vw;\r\n    display: grid;\r\n    grid-template-columns: 20% 80%;\r\n    gap: 10px;\r\n    margin: 0 30px;\r\n}\r\n\r\n.FirstTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 40px;\r\n    line-height: 80px;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.SecondTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 25px;\r\n    line-height: 140.62%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.ThirdTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: bold;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.RegularText {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\na {\r\n    text-decoration: none;\r\n}\r\n\r\na:hover {\r\n    color: #000000;\r\n    text-decoration: none;\r\n}\r\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "../node_modules/css-loader/dist/cjs.js!./components/Home.css":
-/*!********************************************************************!*\
-  !*** ../node_modules/css-loader/dist/cjs.js!./components/Home.css ***!
-  \********************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "../node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "../node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, ".Home {\r\n    margin: 0 50px;\r\n    padding: 100px;\r\n    font-size: large;\r\n}\r\n", "",{"version":3,"sources":["webpack://./components/Home.css"],"names":[],"mappings":"AAAA;IACI,cAAc;IACd,cAAc;IACd,gBAAgB;AACpB","sourcesContent":[".Home {\r\n    margin: 0 50px;\r\n    padding: 100px;\r\n    font-size: large;\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "html, body {\r\n    min-height: 100vh;\r\n    max-width: 100vw;\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.Content {\r\n    grid-column: 2 / 3;\r\n    width: 100%;\r\n    margin: 70px 0;\r\n    padding: 0 200px;\r\n}\r\n\r\n.App {\r\n    min-height: 100vh;\r\n    max-width: 100vw;\r\n    display: grid;\r\n    grid-template-columns: 20% 80%;\r\n    gap: 10px;\r\n    margin: 0 30px;\r\n}\r\n\r\n.Block {\r\n    margin: 30px 0;\r\n}\r\n\r\n.FirstTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 40px;\r\n    line-height: 80px;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.SecondTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 25px;\r\n    line-height: 140.62%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.ThirdTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: bold;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.RegularText {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\na {\r\n    text-decoration: none;\r\n}\r\n\r\na:hover {\r\n    color: #000000;\r\n    text-decoration: none;\r\n}\r\n", "",{"version":3,"sources":["webpack://./App.css"],"names":[],"mappings":"AAAA;IACI,iBAAiB;IACjB,gBAAgB;IAChB,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,iBAAiB;IACjB,sBAAsB;AAC1B;;AAEA;IACI,kBAAkB;IAClB,WAAW;IACX,cAAc;IACd,gBAAgB;AACpB;;AAEA;IACI,iBAAiB;IACjB,gBAAgB;IAChB,aAAa;IACb,8BAA8B;IAC9B,SAAS;IACT,cAAc;AAClB;;AAEA;IACI,cAAc;AAClB;;AAEA;IACI,+BAA+B;IAC/B,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,iBAAiB;IACjB,sBAAsB;AAC1B;;AAEA;IACI,+BAA+B;IAC/B,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,oBAAoB;IACpB,sBAAsB;AAC1B;;AAEA;IACI,+BAA+B;IAC/B,kBAAkB;IAClB,iBAAiB;IACjB,eAAe;IACf,iBAAiB;IACjB,sBAAsB;AAC1B;;AAEA;IACI,+BAA+B;IAC/B,kBAAkB;IAClB,mBAAmB;IACnB,eAAe;IACf,iBAAiB;IACjB,sBAAsB;AAC1B;;AAEA;IACI,qBAAqB;AACzB;;AAEA;IACI,cAAc;IACd,qBAAqB;AACzB","sourcesContent":["html, body {\r\n    min-height: 100vh;\r\n    max-width: 100vw;\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.Content {\r\n    grid-column: 2 / 3;\r\n    width: 100%;\r\n    margin: 70px 0;\r\n    padding: 0 200px;\r\n}\r\n\r\n.App {\r\n    min-height: 100vh;\r\n    max-width: 100vw;\r\n    display: grid;\r\n    grid-template-columns: 20% 80%;\r\n    gap: 10px;\r\n    margin: 0 30px;\r\n}\r\n\r\n.Block {\r\n    margin: 30px 0;\r\n}\r\n\r\n.FirstTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 40px;\r\n    line-height: 80px;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.SecondTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 25px;\r\n    line-height: 140.62%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.ThirdTitle {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: bold;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\n.RegularText {\r\n    /*font-family: SF Pro Display;*/\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    font-size: 16px;\r\n    line-height: 120%;\r\n    letter-spacing: 0.02em;\r\n}\r\n\r\na {\r\n    text-decoration: none;\r\n}\r\n\r\na:hover {\r\n    color: #000000;\r\n    text-decoration: none;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17868,7 +18051,34 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".Navigation {\r\n    position: sticky;\r\n    top: 70px;\r\n    margin: 70px;\r\n}\r\n\r\n.NavigationContainer {\r\n    width: 100%;\r\n    min-height: 100%;\r\n}\r\n\r\n.NavigationText {\r\n    color: #000000;\r\n}\r\n\r\n.NavigationText:hover {\r\n    opacity: 0.5;\r\n}\r\n", "",{"version":3,"sources":["webpack://./components/Navigation/Navigation.css"],"names":[],"mappings":"AAAA;IACI,gBAAgB;IAChB,SAAS;IACT,YAAY;AAChB;;AAEA;IACI,WAAW;IACX,gBAAgB;AACpB;;AAEA;IACI,cAAc;AAClB;;AAEA;IACI,YAAY;AAChB","sourcesContent":[".Navigation {\r\n    position: sticky;\r\n    top: 70px;\r\n    margin: 70px;\r\n}\r\n\r\n.NavigationContainer {\r\n    width: 100%;\r\n    min-height: 100%;\r\n}\r\n\r\n.NavigationText {\r\n    color: #000000;\r\n}\r\n\r\n.NavigationText:hover {\r\n    opacity: 0.5;\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".Navigation {\r\n    position: sticky;\r\n    top: 70px;\r\n    margin: 70px 0;\r\n}\r\n\r\n.NavigationContainer {\r\n    width: 100%;\r\n    min-height: 100%;\r\n}\r\n\r\n.NavigationText {\r\n    color: #000000;\r\n}\r\n\r\n.NavigationText:hover {\r\n    opacity: 0.5;\r\n}\r\n", "",{"version":3,"sources":["webpack://./components/Navigation/Navigation.css"],"names":[],"mappings":"AAAA;IACI,gBAAgB;IAChB,SAAS;IACT,cAAc;AAClB;;AAEA;IACI,WAAW;IACX,gBAAgB;AACpB;;AAEA;IACI,cAAc;AAClB;;AAEA;IACI,YAAY;AAChB","sourcesContent":[".Navigation {\r\n    position: sticky;\r\n    top: 70px;\r\n    margin: 70px 0;\r\n}\r\n\r\n.NavigationContainer {\r\n    width: 100%;\r\n    min-height: 100%;\r\n}\r\n\r\n.NavigationText {\r\n    color: #000000;\r\n}\r\n\r\n.NavigationText:hover {\r\n    opacity: 0.5;\r\n}\r\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "../node_modules/css-loader/dist/cjs.js!./components/Tasks/Task.css":
+/*!**************************************************************************!*\
+  !*** ../node_modules/css-loader/dist/cjs.js!./components/Tasks/Task.css ***!
+  \**************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "../node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "../node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".TaskDescription {\r\n    white-space: pre-wrap;\r\n}\r\n", "",{"version":3,"sources":["webpack://./components/Tasks/Task.css"],"names":[],"mappings":"AAAA;IACI,qBAAqB;AACzB","sourcesContent":[".TaskDescription {\r\n    white-space: pre-wrap;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17895,7 +18105,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".TaskForm {\r\n    width: 100%;\r\n}\r\n\r\n.FormButton {\r\n    border-radius: 0;\r\n    color: #272727;\r\n    border-color: #272727;\r\n    width: 160px;\r\n }\r\n\r\n.custom-file-input:focus ~ .custom-file-label,\r\n.FormButton:not(:disabled):not(.disabled):active:focus,\r\n.FormButton:focus,\r\n.FormInput:focus{\r\n    /*box-shadow: 0 0 0 0.2rem #00000040;*/\r\n    border-color: #A0A0A0;\r\n    box-shadow: none;\r\n}\r\n\r\n.FormButton:hover {\r\n    background-color: #E5E5E5;\r\n    border-color: #A0A0A0;\r\n    color: #272727;\r\n}\r\n\r\n\r\n.FormButton:not(:disabled):not(.disabled):active,\r\n.FormButton:active {\r\n    background-color: #272727;\r\n    color: #ffffff;\r\n    border-color: #A0A0A0;\r\n}\r\n\r\n.FormInput {\r\n    border-color: #A0A0A0;\r\n    border-radius: 0;\r\n}\r\n\r\n.FormInput:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n.custom-file-label::after {\r\n    background-color: #E5E5E5;\r\n    color: #272727;\r\n    width: 160px;\r\n    text-align: center;\r\n}\r\n\r\n.custom-file-label,\r\n.form-control::placeholder {\r\n    color: #A0A0A0;\r\n}\r\n", "",{"version":3,"sources":["webpack://./components/Tasks/TaskForm/TaskForm.css"],"names":[],"mappings":"AAAA;IACI,WAAW;AACf;;AAEA;IACI,gBAAgB;IAChB,cAAc;IACd,qBAAqB;IACrB,YAAY;CACf;;AAED;;;;IAII,sCAAsC;IACtC,qBAAqB;IACrB,gBAAgB;AACpB;;AAEA;IACI,yBAAyB;IACzB,qBAAqB;IACrB,cAAc;AAClB;;;AAGA;;IAEI,yBAAyB;IACzB,cAAc;IACd,qBAAqB;AACzB;;AAEA;IACI,qBAAqB;IACrB,gBAAgB;AACpB;;AAEA;IACI,eAAe;AACnB;;AAEA;IACI,yBAAyB;IACzB,cAAc;IACd,YAAY;IACZ,kBAAkB;AACtB;;AAEA;;IAEI,cAAc;AAClB","sourcesContent":[".TaskForm {\r\n    width: 100%;\r\n}\r\n\r\n.FormButton {\r\n    border-radius: 0;\r\n    color: #272727;\r\n    border-color: #272727;\r\n    width: 160px;\r\n }\r\n\r\n.custom-file-input:focus ~ .custom-file-label,\r\n.FormButton:not(:disabled):not(.disabled):active:focus,\r\n.FormButton:focus,\r\n.FormInput:focus{\r\n    /*box-shadow: 0 0 0 0.2rem #00000040;*/\r\n    border-color: #A0A0A0;\r\n    box-shadow: none;\r\n}\r\n\r\n.FormButton:hover {\r\n    background-color: #E5E5E5;\r\n    border-color: #A0A0A0;\r\n    color: #272727;\r\n}\r\n\r\n\r\n.FormButton:not(:disabled):not(.disabled):active,\r\n.FormButton:active {\r\n    background-color: #272727;\r\n    color: #ffffff;\r\n    border-color: #A0A0A0;\r\n}\r\n\r\n.FormInput {\r\n    border-color: #A0A0A0;\r\n    border-radius: 0;\r\n}\r\n\r\n.FormInput:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n.custom-file-label::after {\r\n    background-color: #E5E5E5;\r\n    color: #272727;\r\n    width: 160px;\r\n    text-align: center;\r\n}\r\n\r\n.custom-file-label,\r\n.form-control::placeholder {\r\n    color: #A0A0A0;\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".TaskForm {\r\n    width: 50%;\r\n    min-width: 160px;\r\n}\r\n\r\n.FormButton {\r\n    border-radius: 0;\r\n    color: #272727;\r\n    border-color: #272727;\r\n    width: 160px;\r\n }\r\n\r\n.custom-file-input:focus ~ .custom-file-label,\r\n.FormButton:not(:disabled):not(.disabled):active:focus,\r\n.FormButton:focus,\r\n.FormInput:focus{\r\n    /*box-shadow: 0 0 0 0.2rem #00000040;*/\r\n    border-color: #A0A0A0;\r\n    box-shadow: none;\r\n}\r\n\r\n.FormButton:hover {\r\n    background-color: #E5E5E5;\r\n    border-color: #A0A0A0;\r\n    color: #272727;\r\n}\r\n\r\n\r\n.FormButton:not(:disabled):not(.disabled):active,\r\n.FormButton:active {\r\n    background-color: #272727;\r\n    color: #ffffff;\r\n    border-color: #A0A0A0;\r\n}\r\n\r\n.FormInput {\r\n    border-color: #A0A0A0;\r\n    border-radius: 0;\r\n}\r\n\r\n.FormInput:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n.custom-file-label::after {\r\n    background-color: #E5E5E5;\r\n    color: #272727;\r\n    width: 160px;\r\n    text-align: center;\r\n}\r\n\r\n.custom-file-label,\r\n.form-control::placeholder {\r\n    color: #A0A0A0;\r\n}\r\n", "",{"version":3,"sources":["webpack://./components/Tasks/TaskForm/TaskForm.css"],"names":[],"mappings":"AAAA;IACI,UAAU;IACV,gBAAgB;AACpB;;AAEA;IACI,gBAAgB;IAChB,cAAc;IACd,qBAAqB;IACrB,YAAY;CACf;;AAED;;;;IAII,sCAAsC;IACtC,qBAAqB;IACrB,gBAAgB;AACpB;;AAEA;IACI,yBAAyB;IACzB,qBAAqB;IACrB,cAAc;AAClB;;;AAGA;;IAEI,yBAAyB;IACzB,cAAc;IACd,qBAAqB;AACzB;;AAEA;IACI,qBAAqB;IACrB,gBAAgB;AACpB;;AAEA;IACI,eAAe;AACnB;;AAEA;IACI,yBAAyB;IACzB,cAAc;IACd,YAAY;IACZ,kBAAkB;AACtB;;AAEA;;IAEI,cAAc;AAClB","sourcesContent":[".TaskForm {\r\n    width: 50%;\r\n    min-width: 160px;\r\n}\r\n\r\n.FormButton {\r\n    border-radius: 0;\r\n    color: #272727;\r\n    border-color: #272727;\r\n    width: 160px;\r\n }\r\n\r\n.custom-file-input:focus ~ .custom-file-label,\r\n.FormButton:not(:disabled):not(.disabled):active:focus,\r\n.FormButton:focus,\r\n.FormInput:focus{\r\n    /*box-shadow: 0 0 0 0.2rem #00000040;*/\r\n    border-color: #A0A0A0;\r\n    box-shadow: none;\r\n}\r\n\r\n.FormButton:hover {\r\n    background-color: #E5E5E5;\r\n    border-color: #A0A0A0;\r\n    color: #272727;\r\n}\r\n\r\n\r\n.FormButton:not(:disabled):not(.disabled):active,\r\n.FormButton:active {\r\n    background-color: #272727;\r\n    color: #ffffff;\r\n    border-color: #A0A0A0;\r\n}\r\n\r\n.FormInput {\r\n    border-color: #A0A0A0;\r\n    border-radius: 0;\r\n}\r\n\r\n.FormInput:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n.custom-file-label::after {\r\n    background-color: #E5E5E5;\r\n    color: #272727;\r\n    width: 160px;\r\n    text-align: center;\r\n}\r\n\r\n.custom-file-label,\r\n.form-control::placeholder {\r\n    color: #A0A0A0;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17922,7 +18132,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".TaskResults {\r\n    margin: 70px 0;\r\n}\r\n\r\n.TaskResultsForm {\r\n    display: flex;\r\n    flex-direction: column;\r\n    margin: 10px 0;\r\n}\r\n\r\n.Assertions {\r\n    display: grid;\r\n    grid-template-columns: 25% 30% 10% 35%;\r\n    gap: 10px;\r\n    margin: 10px 0;\r\n}\r\n\r\n.TaskResultsItem {\r\n    margin: 5px 0;\r\n}\r\n\r\n.Passed {\r\n    color: #05ae05;\r\n}\r\n\r\n.Failed {\r\n    color: #CE0014;\r\n }\r\n", "",{"version":3,"sources":["webpack://./components/Tasks/TaskResults/TaskResults.css"],"names":[],"mappings":"AAAA;IACI,cAAc;AAClB;;AAEA;IACI,aAAa;IACb,sBAAsB;IACtB,cAAc;AAClB;;AAEA;IACI,aAAa;IACb,sCAAsC;IACtC,SAAS;IACT,cAAc;AAClB;;AAEA;IACI,aAAa;AACjB;;AAEA;IACI,cAAc;AAClB;;AAEA;IACI,cAAc;CACjB","sourcesContent":[".TaskResults {\r\n    margin: 70px 0;\r\n}\r\n\r\n.TaskResultsForm {\r\n    display: flex;\r\n    flex-direction: column;\r\n    margin: 10px 0;\r\n}\r\n\r\n.Assertions {\r\n    display: grid;\r\n    grid-template-columns: 25% 30% 10% 35%;\r\n    gap: 10px;\r\n    margin: 10px 0;\r\n}\r\n\r\n.TaskResultsItem {\r\n    margin: 5px 0;\r\n}\r\n\r\n.Passed {\r\n    color: #05ae05;\r\n}\r\n\r\n.Failed {\r\n    color: #CE0014;\r\n }\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "/*.TaskResults {*/\r\n/*    margin: 50px 0;*/\r\n/*}*/\r\n\r\n.TaskResultsForm {\r\n    display: flex;\r\n    flex-direction: column;\r\n    margin: 10px 0;\r\n}\r\n\r\n.Assertions {\r\n    display: grid;\r\n    grid-template-columns: 25% 30% 10% 35%;\r\n    gap: 10px;\r\n    margin: 10px 0;\r\n}\r\n\r\n.TaskResultsItem {\r\n    margin: 5px 0;\r\n}\r\n\r\n.Passed {\r\n    color: #05ae05;\r\n}\r\n\r\n.Failed {\r\n    color: #CE0014;\r\n }\r\n", "",{"version":3,"sources":["webpack://./components/Tasks/TaskResults/TaskResults.css"],"names":[],"mappings":"AAAA,iBAAiB;AACjB,sBAAsB;AACtB,IAAI;;AAEJ;IACI,aAAa;IACb,sBAAsB;IACtB,cAAc;AAClB;;AAEA;IACI,aAAa;IACb,sCAAsC;IACtC,SAAS;IACT,cAAc;AAClB;;AAEA;IACI,aAAa;AACjB;;AAEA;IACI,cAAc;AAClB;;AAEA;IACI,cAAc;CACjB","sourcesContent":["/*.TaskResults {*/\r\n/*    margin: 50px 0;*/\r\n/*}*/\r\n\r\n.TaskResultsForm {\r\n    display: flex;\r\n    flex-direction: column;\r\n    margin: 10px 0;\r\n}\r\n\r\n.Assertions {\r\n    display: grid;\r\n    grid-template-columns: 25% 30% 10% 35%;\r\n    gap: 10px;\r\n    margin: 10px 0;\r\n}\r\n\r\n.TaskResultsItem {\r\n    margin: 5px 0;\r\n}\r\n\r\n.Passed {\r\n    color: #05ae05;\r\n}\r\n\r\n.Failed {\r\n    color: #CE0014;\r\n }\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -54796,36 +55006,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./components/Home.css":
-/*!*****************************!*\
-  !*** ./components/Home.css ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_Home_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js!./Home.css */ "../node_modules/css-loader/dist/cjs.js!./components/Home.css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_Home_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_Home_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
-
-/***/ }),
-
 /***/ "./components/Navigation/Navigation.css":
 /*!**********************************************!*\
   !*** ./components/Navigation/Navigation.css ***!
@@ -54853,6 +55033,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_Navigation_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./components/Tasks/Task.css":
+/*!***********************************!*\
+  !*** ./components/Tasks/Task.css ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_Task_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!./Task.css */ "../node_modules/css-loader/dist/cjs.js!./components/Tasks/Task.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_Task_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_Task_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 

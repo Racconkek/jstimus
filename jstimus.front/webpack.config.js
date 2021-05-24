@@ -1,10 +1,12 @@
 const path = require('path');
+const buildPath = path.join(path.resolve(),'../jstimus.server/public');
+console.log(buildPath);
 
 module.exports = {
     devtool: 'source-map',
     entry: "./index.js", // входная точка - исходный файл
     output:{
-        path: path.join(path.resolve(),'../jstimus.server/public'),     // путь к каталогу выходных файлов - папка public
+        path: buildPath,     // путь к каталогу выходных файлов - папка public
         // publicPath: '/public/',
         filename: "bundle.js"   // название создаваемого файла
     },
