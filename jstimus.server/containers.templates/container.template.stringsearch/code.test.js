@@ -1,15 +1,6 @@
-// const fs = require('fs');
-
 const { mainCorrect } = require("./mainCorrect.js");
 const { main } = require('./mainSolution.js');
 const testData = require('./testText.js');
-
-// let testData = undefined;
-// try {
-//     // testData = fs.readFileSync('./testText.js', 'utf-8');
-// } catch (err) {
-//     console.log(err);
-// }
 
 describe('Main solution', () => {
     beforeAll(() => {
@@ -48,9 +39,6 @@ describe('Main solution', () => {
     });
 
     test('Harry Potter book word: wand', () => {
-        // if (!testData) {
-        //     throw new Error('cant read test file');
-        // }
         const template = 'wand';
         const correct = mainCorrect(testData, template);
         const test = main(testData, template);
@@ -58,9 +46,6 @@ describe('Main solution', () => {
     });
 
     test('Harry Potter book word: Harry', () => {
-        // if (!testData) {
-        //     throw new Error('cant read test file');
-        // }
         const template = 'Harry';
         const correct = mainCorrect(testData, template);
         const test = main(testData, template);
@@ -68,9 +53,6 @@ describe('Main solution', () => {
     });
 
     test('Harry Potter book word: Hogwarts', () => {
-        // if (!testData) {
-        //     throw new Error('cant read test file');
-        // }
         const template = 'Hogwarts';
         const correct = mainCorrect(testData, template);
         const test = main(testData, template);
