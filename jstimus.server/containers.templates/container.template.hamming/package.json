@@ -1,0 +1,16 @@
+{
+  "name": "container.template.hamming",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^26.6.3"
+  },
+  "scripts": {
+    "deps": "yarn install",
+    "start": "cross-env node index.js",
+    "test": "jest --noStackTrace --json",
+    "docker:build": "docker build --tag %npm_package_name% .",
+    "docker:run": "docker run %npm_package_name%"
+  }
+}
