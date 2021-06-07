@@ -21,7 +21,9 @@ export default class TaskResults extends React.Component {
                 <div>
                     <span className={'FirstTitle'}>Результаты:</span>
                     <div className={'TaskResultsForm'}>
-                        <span className={'SecondTitle TaskResultsItem'}>Успех: <span className={results.success ? 'Passed' : 'Failed'}>{`${results.success}`}</span></span>
+                        <span className={'SecondTitle TaskResultsItem'}>Успех:
+                            <span className={results.success ? 'Passed' : 'Failed'}>{`${results.success}`}</span>
+                        </span>
                         {!results.success && testResults.assertionResults.length === 0 && <div>
                             <span className={'SecondTitle TaskResultsItem'}>Сообщение об ошибке</span>
                             <div className={'TaskResultsItem'}>{testResults.message}</div>

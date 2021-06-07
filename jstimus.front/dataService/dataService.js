@@ -15,7 +15,6 @@ export default class DataService {
     static async sendFiles(taskName, studentName, files) {
         const data = new FormData();
         for (let file of files) {
-            // console.log(file.fileId, file.codeFile)
             data.append(file.fileId, file.codeFile);
         }
         data.append('studentName', studentName);
@@ -30,7 +29,6 @@ export default class DataService {
             );
             return res.data;
         } catch (error) {
-            // console.error('Data Service ', error.response.data);
             throw error;
         }
     }

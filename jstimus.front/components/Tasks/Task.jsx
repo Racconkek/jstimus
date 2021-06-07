@@ -25,3 +25,4 @@ export default function Task({task}) {
         <TaskResults results={results} isLoading={isLoading} error={error}/>
     </div>
 }
+

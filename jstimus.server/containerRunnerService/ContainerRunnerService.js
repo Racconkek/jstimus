@@ -57,13 +57,8 @@ class ContainerRunnerService {
             });
 
             containerRun.stderr.on('data', (data) => {
-                // console.log(`container stderr: ${data}`);
                 this.error += `${data}\n`;
             });
-
-            // containerRun.on('error', (data) => {
-            //     this.result += data + '\n';
-            // })
 
             containerRun.on('close', async (code) => {
                 console.log(`container closed with code ${code}`);
@@ -103,7 +98,7 @@ class ContainerRunnerService {
             imageRemove.on('close', (code) => {
                 console.log(`image removed with code ${code}`);
                 if (code !== 0) rej(code);
-                if(code === 0) res(true);
+                if(code === 0) res(true);``
             });
         });
     }

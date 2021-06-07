@@ -5,9 +5,9 @@ const fs = require("fs/promises");
 const ContainerRunnerService = require('../containerRunnerService/ContainerRunnerService.js');
 
 module.exports = async function checkTask(req, res) {
+    let containerPath = undefined;
 
     const form = formidable.IncomingForm({multiples: true});
-    let containerPath = undefined;
     try {
         const {fields, files} = await new Promise((resolve, reject) => {
             form.parse(req, (err, fields, files) => {
@@ -69,7 +69,6 @@ async function createTempContainerDir(files, containerPath, taskName) {
             throw err;
         }
     }
-
     return true;
 }
 

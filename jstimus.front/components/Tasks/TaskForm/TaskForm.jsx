@@ -22,13 +22,18 @@ export default class TaskForm extends React.Component {
             files: this.props.taskFiles.map(e => {
                 return {fileName: e.fileName, fileId: e.fileId, codeFile: ''}
             }),
-            studentName: ''
+            studentName: '',
+            isValidName: true,
+            isValidFiles: true
         }
     }
 
     handleNameInput = (event) => {
         const nextName = event.target.value;
-        this.setState({ studentName: nextName });
+        const matched = nextName.match('^[a-z]*$');
+        if (matched !== null && matched.index === 0) {
+            this.setState({studentName: nextName});
+        }
     }
 
     handleFileInput = (event) => {
@@ -56,9 +61,21 @@ export default class TaskForm extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const hasAllFiles = this.state.files.every(e => e.codeFile !== '')
-        // console.log('submit ' + hasAllFiles);
         let {studentName, files } = this.state;
+        const hasAllFiles = files.every(e => e.codeFile !== '');
+        const matched = studentName.match('^[a-z]+$');
+        if (matched === null || matched.index !== 0) {
+            this.setState({ isValidName: false });
+            return;
+        } else {
+            this.setState({isValidName: true});
+        }
+        if (!hasAllFiles) {
+            this.setState({isValidFiles: false});
+            return;
+        } else {
+            this.setState({isValidFiles: true});
+        }
         this.props.onResults({results: null, isLoading: true, error: null});
         DataService.sendFiles(this.props.taskName, studentName, files)
             .then((res) => {
@@ -66,24 +83,27 @@ export default class TaskForm extends React.Component {
                 this.props.onResults({results: results, isLoading: false, error: null});
             })
             .catch((err) => {
-                // console.log('task form ', err.response);
                 this.props.onResults({results: null, isLoading: false, error: err.response.data});
             })
     }
 
     render() {
-        const inputs = this.state.files;
+        const {files, studentName, isValidName, isValidFiles} = this.state;
         return <div className={'TaskForm Block'}>
             <Form onSubmit={this.handleSubmit}>
                 <Form.Group>
-                    {/*<Form.Label>Имя студента</Form.Label>*/}
-                    <Form.Control className={'FormInput'} type={name} onChange={this.handleNameInput} placeholder={'Имя студента'}/>
+                    <Form.Control
+                        className={!isValidName ? 'FormInput FormInputInvalid' : 'FormInput'}
+                        onChange={this.handleNameInput}
+                        placeholder={'Имя студента'}
+                        value={studentName}
+                    />
                 </Form.Group>
                 <Form.Group>
-                    {inputs.map(e => {
-                        return <Form.File className={'FormInput'} key={e.fileId} id={e.fileId} custom>
-                            <Form.File.Input className={'FormInput'} onChange={this.handleFileInput} accept={'.js'}/>
-                            <Form.File.Label className={'FormInput'} data-browse="Выбрать">
+                    {files.map(e => {
+                        return <Form.File className={!isValidFiles ? 'FormInput FormInputInvalid' : 'FormInput'} key={e.fileId} id={e.fileId} custom>
+                            <Form.File.Input className={!isValidFiles ? 'FormInput FormInputInvalid' : 'FormInput'} onChange={this.handleFileInput} accept={'.js'}/>
+                            <Form.File.Label className={!isValidFiles ? 'FormInput FormInputInvalid' : 'FormInput'} data-browse="Выбрать">
                                 {e.fileName}
                             </Form.File.Label>
                         </Form.File>

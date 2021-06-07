@@ -13,7 +13,7 @@
 .custom-file-input:focus ~ .custom-file-label,
 .FormButton:not(:disabled):not(.disabled):active:focus,
 .FormButton:focus,
-.FormInput:focus{
+.FormInput:focus {
     /*box-shadow: 0 0 0 0.2rem #00000040;*/
     border-color: #A0A0A0;
     box-shadow: none;
@@ -38,7 +38,15 @@
     border-radius: 0;
 }
 
-.FormInput:hover {
+.FormInputInvalid, .FormInputInvalid:focus {
+    border-color: #CE0014;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+
+.FormInput:hover,
+.FormInputInvalid:hover {
     cursor: pointer;
 }
 
