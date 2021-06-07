@@ -4,9 +4,9 @@ import response_fail from "../mocks/response_fail.js";
 import response_fail_name from "../mocks/response_fail_name.js";
 import response_some_fail_some_success from '../mocks/response_some_fail_some_success.js';
 
+let port = process.env.NODE_ENV === 'production' ? '80' : '3000';
 let baseUrl = window.location.protocol + '\/\/' +
-    window.location.hostname + ':' + '3000';
-    // window.location.port;
+    window.location.hostname + ':' + port ;
 
 export default class DataService {
 

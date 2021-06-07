@@ -11,7 +11,7 @@
     "morgan": "^1.10.0"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production node index.js",
+    "start": "cross-env NODE_ENV=production PORT=80 node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js"
   },
   "devDependencies": {

@@ -12,7 +12,7 @@
   "devDependencies": {},
   "workspaces": ["jstimus.front", "jstimus.server"],
   "scripts": {
-    "build:front": "yarn workspace jstimus.front build:prod",
-    "dev": ""
+    "build": "yarn workspace jstimus.front build:prod",
+    "start": "yarn run build && yarn workspace jstimus.server start"
   }
 }
