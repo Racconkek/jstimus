@@ -1,8 +1,8 @@
-function conv(input) {
+function conv(str) {
     return undefined;
 }
 
-function calc(input) {
+function calc(str) {
     return undefined;
 }
 
